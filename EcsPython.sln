@@ -1,0 +1,29 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "EcsPython", "EcsPython\EcsPython.vcproj", "{D176AFD3-FF13-46C7-8C48-294A4E7BD2AD}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "EcsDemo", "EcsDemo\EcsDemo.vcproj", "{CA6722F0-751B-4E33-9331-66510AB0DEAE}"
+	ProjectSection(ProjectDependencies) = postProject
+		{D176AFD3-FF13-46C7-8C48-294A4E7BD2AD} = {D176AFD3-FF13-46C7-8C48-294A4E7BD2AD}
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D176AFD3-FF13-46C7-8C48-294A4E7BD2AD}.Debug|Win32.ActiveCfg = Debug|Win32
+		{D176AFD3-FF13-46C7-8C48-294A4E7BD2AD}.Debug|Win32.Build.0 = Debug|Win32
+		{D176AFD3-FF13-46C7-8C48-294A4E7BD2AD}.Release|Win32.ActiveCfg = Release|Win32
+		{D176AFD3-FF13-46C7-8C48-294A4E7BD2AD}.Release|Win32.Build.0 = Release|Win32
+		{CA6722F0-751B-4E33-9331-66510AB0DEAE}.Debug|Win32.ActiveCfg = Debug|Win32
+		{CA6722F0-751B-4E33-9331-66510AB0DEAE}.Debug|Win32.Build.0 = Debug|Win32
+		{CA6722F0-751B-4E33-9331-66510AB0DEAE}.Release|Win32.ActiveCfg = Release|Win32
+		{CA6722F0-751B-4E33-9331-66510AB0DEAE}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

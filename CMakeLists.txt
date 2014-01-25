@@ -28,7 +28,10 @@ add_library(
     ${dsp_hdrs}
 )
 
-target_link_libraries(${PROJECT_NAME} ${PYTHON_LIBRARIES})
+target_link_libraries(
+    ${PROJECT_NAME}
+    ${PYTHON_LIBRARIES}
+)
 
 install(
     TARGETS ${PROJECT_NAME}

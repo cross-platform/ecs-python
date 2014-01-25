@@ -104,12 +104,12 @@ int main()
   // ======================================
   Ecs_Python_Cmd( "print( newSimple.GetLastMessage() )" );
 
-  //Ecs_Python_Cmd( "state = newSimple.Show( 'hello' )" );
-  //Ecs_Python_Cmd( "if state == True: \n\t print( ' there,' )" );
+  Ecs_Python_Cmd( "state = newSimple.Show( 'hello' )" );
+  Ecs_Python_Cmd( "if state == True: \n\t print( ' there,' )" );
 
   Ecs_Python_Cmd( "newSimple.ShowLots( 5, 'again and ' )" );
 
-  //Ecs_Python_Cmd( "newSimple.Show( 'once more.' )" );
+  Ecs_Python_Cmd( "newSimple.Show( 'once more.' )" );
   Ecs_Python_Cmd( "print('')" );
 
   // Use Class Instance From C++

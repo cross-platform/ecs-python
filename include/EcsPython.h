@@ -35,9 +35,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifdef _WIN32
 
 #ifdef ECS_EXPORT
-#define DLLPORT __declspec(dllexport)
+  #define DLLPORT __declspec(dllexport)
 #else
-#define DLLPORT __declspec(dllimport)
+  #define DLLPORT __declspec(dllimport)
 #endif
 
 #else

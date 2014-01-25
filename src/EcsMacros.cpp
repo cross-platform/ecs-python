@@ -29,9 +29,9 @@ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ************************************************************************/
 
-#include "EcsPython.h"
-#include "EcsMacros.h"
-#include "Python.h"
+#include <EcsPython.h>
+#include <ecspython/EcsMacros.h>
+#include <Python.h>
 
 #include <string>
 
@@ -59,13 +59,13 @@ template DLLEXPORT PyObject* _Ecs_GetPythonReturnValue( const float& );
 
 void _EcsAddNewMethod( const char *methodName, PyCFunction methodPointer, int methodFlags )
 {
-  if( _Ecs_ParseTuple == NULL )
-  {
-    _Ecs_ParseTuple = PyArg_ParseTuple;
-  }
+if( _Ecs_ParseTuple == NULL )
+{
+_Ecs_ParseTuple = PyArg_ParseTuple;
+}
 
-  PyMethodDef newMethod = { methodName, methodPointer, methodFlags };
-  EcsPythonMethods.push_back( newMethod );
+PyMethodDef newMethod = { methodName, methodPointer, methodFlags };
+EcsPythonMethods.push_back( newMethod );
 }
 
 //-------------------------------------------------------------------------------------------------

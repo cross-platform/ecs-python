@@ -29,7 +29,7 @@ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ************************************************************************/
 
-#include "EcsPython.h"
+#include <EcsPython.h>
 #include <iostream>
 #include <stdio.h>
 
@@ -40,32 +40,32 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 class Simple
 {
 public:
-	Simple( std::string firstMessage )
-	: lastMessage( firstMessage ) {}
+  Simple( std::string firstMessage )
+    : lastMessage( firstMessage ) {}
 
-	bool Show( std::string message )
-	{
-		std::cout << message.c_str();
-		lastMessage = message;
-		return true;
-	}
+  bool Show( std::string message )
+  {
+    std::cout << message.c_str();
+    lastMessage = message;
+    return true;
+  }
 
-	void ShowLots( unsigned long count, std::string message )
-	{
-		for( unsigned int i = 0; i < count; i++ )
-		{
-			std::cout << message.c_str();
-		}
-		lastMessage = message;
-	}
+  void ShowLots( unsigned long count, std::string message )
+  {
+    for( unsigned int i = 0; i < count; i++ )
+    {
+      std::cout << message.c_str();
+    }
+    lastMessage = message;
+  }
 
-	std::string GetLastMessage() const
-	{
-		return lastMessage;
-	}
+  std::string GetLastMessage() const
+  {
+    return lastMessage;
+  }
 
 private:
-	std::string lastMessage;
+  std::string lastMessage;
 };
 
 // Register Classes + Methods
@@ -81,47 +81,47 @@ ECS_REGISTER_METHOD_RETURN( Simple, GetLastMessage, std::string );
 // ====
 int main()
 {
-	// Init Classes + Methods
-	// ======================
-	Ecs_Init_Simple();
-	Ecs_Init_Simple_Show();
-	Ecs_Init_Simple_ShowLots();
-	Ecs_Init_Simple_GetLastMessage();
+  // Init Classes + Methods
+  // ======================
+  Ecs_Init_Simple();
+  Ecs_Init_Simple_Show();
+  Ecs_Init_Simple_ShowLots();
+  Ecs_Init_Simple_GetLastMessage();
 
-	// Initialize EcsPython
-	// ====================
-	Ecs_Initialize();
+  // Initialize EcsPython
+  // ====================
+  Ecs_Initialize();
 
-	// Create New Class Instance
-	// =========================
-	Simple* newSimple = new Simple( "(first message)" );
+  // Create New Class Instance
+  // =========================
+  Simple* newSimple = new Simple( "(first message)" );
 
-	// Expose Class Instance To Python
-	// ===============================
-	Ecs_Expose_Object( newSimple, "newSimple" );
+  // Expose Class Instance To Python
+  // ===============================
+  Ecs_Expose_Object( newSimple, "newSimple" );
 
-	// Use Exposed Class Instance From Python
-	// ======================================
-	Ecs_Python_Cmd( "print( newSimple.GetLastMessage() )" );
+  // Use Exposed Class Instance From Python
+  // ======================================
+  Ecs_Python_Cmd( "print( newSimple.GetLastMessage() )" );
 
-	Ecs_Python_Cmd( "state = newSimple.Show( 'hello' )" );
-	Ecs_Python_Cmd( "if state == True: \n\t print( ' there,' )" );
+  //Ecs_Python_Cmd( "state = newSimple.Show( 'hello' )" );
+  //Ecs_Python_Cmd( "if state == True: \n\t print( ' there,' )" );
 
-	Ecs_Python_Cmd( "state = newSimple.ShowLots( 5, 'again and ' )" );
+  Ecs_Python_Cmd( "newSimple.ShowLots( 5, 'again and ' )" );
 
-	Ecs_Python_Cmd( "newSimple.Show( 'once more.' )" );
-	Ecs_Python_Cmd( "print('')" );
+  //Ecs_Python_Cmd( "newSimple.Show( 'once more.' )" );
+  Ecs_Python_Cmd( "print('')" );
 
-	// Use Class Instance From C++
-	// ===========================
-	std::cout << newSimple->GetLastMessage().c_str();
-	getchar();
+  // Use Class Instance From C++
+  // ===========================
+  std::cout << newSimple->GetLastMessage().c_str();
+  getchar();
 
-	// Finalize EcsPython
-	// ==================
-	Ecs_Finalize();
-	
-	return 0;
+  // Finalize EcsPython
+  // ==================
+  Ecs_Finalize();
+
+  return 0;
 }
 
 //=================================================================================================

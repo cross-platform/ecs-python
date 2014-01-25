@@ -29,7 +29,7 @@ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ************************************************************************/
 
-#include "EcsPython.h"
+#include <EcsPython.h>
 #include <Python.h>
 
 #include <fstream>
@@ -58,23 +58,23 @@ DLLPORT struct PyModuleDef EcsPythonModule;							  // EcsPython python module
 
 void Ecs_Initialize()
 {
-	Py_Finalize();
+  Py_Finalize();
 
-	// Add a built-in module, before Py_Initialize
-	PyImport_AppendInittab( "EcsPython", _Ecs_PyInit );
+  // Add a built-in module, before Py_Initialize
+  PyImport_AppendInittab( "EcsPython", _Ecs_PyInit );
 
-	Py_Initialize();
+  Py_Initialize();
 
-	// Import EcsPython
-	Ecs_Python_Cmd("import EcsPython");
-	Ecs_Python_Cmd( EcsPythonClassesDef );
-	
-	for( unsigned long i = 0; i < EcsExposedObjects.size(); i++ )
-	{
-		_Ecs_Expose_Object( EcsExposedObjects[i]->pyObject, EcsExposedObjects[i]->pyClassName, EcsExposedObjects[i]->pyObjectName );
-	}
+  // Import EcsPython
+  Ecs_Python_Cmd("import EcsPython");
+  Ecs_Python_Cmd( EcsPythonClassesDef );
 
-	EcsPythonMethods.pop_back();	// pop the NULL off the end of the methods array so that more can be added later
+  for( unsigned long i = 0; i < EcsExposedObjects.size(); i++ )
+  {
+    _Ecs_Expose_Object( EcsExposedObjects[i]->pyObject, EcsExposedObjects[i]->pyClassName, EcsExposedObjects[i]->pyObjectName );
+  }
+
+  EcsPythonMethods.pop_back();	// pop the NULL off the end of the methods array so that more can be added later
 }
 
 //-------------------------------------------------------------------------------------------------
@@ -83,7 +83,7 @@ void Ecs_Initialize()
 
 void Ecs_Finalize()
 {
-	Py_Finalize();
+  Py_Finalize();
 }
 
 //-------------------------------------------------------------------------------------------------
@@ -92,9 +92,9 @@ void Ecs_Finalize()
 
 void Ecs_Python_Cmd( std::string pythonCmdString )
 {
-	EcsPythonCmdMutex.Lock();
-	PyRun_SimpleString( pythonCmdString.c_str() );
-	EcsPythonCmdMutex.Unlock();
+  EcsPythonCmdMutex.Lock();
+  PyRun_SimpleString( pythonCmdString.c_str() );
+  EcsPythonCmdMutex.Unlock();
 }
 
 //-------------------------------------------------------------------------------------------------
@@ -103,12 +103,12 @@ void Ecs_Python_Cmd( std::string pythonCmdString )
 
 void Ecs_Python_File( std::string pythonFilePath )
 {
-	std::ifstream in( pythonFilePath.c_str() );
-	std::string contents = std::string( std::istreambuf_iterator< char >( in ),
-																		  std::istreambuf_iterator< char >() );
-	in.close();
+  std::ifstream in( pythonFilePath.c_str() );
+  std::string contents = std::string( std::istreambuf_iterator< char >( in ),
+                                      std::istreambuf_iterator< char >() );
+  in.close();
 
-	Ecs_Python_Cmd( contents );
+  Ecs_Python_Cmd( contents );
 }
 
 //-------------------------------------------------------------------------------------------------
@@ -123,38 +123,38 @@ std::string Ecs_Get_Value( std::string pyObjectName )
   PyObject* resultAttr = PyObject_GetAttrString( mainModule, pyObjectName.c_str() );
   PyObject* resultUtf8 = PyUnicode_AsUTF8String( resultAttr );
 
-  #if PY_MAJOR_VERSION >= 3
-    if( resultUtf8 != NULL )
-    {
-      resultValue = PyUnicode_AsUTF8( resultAttr );
-    }
-    else
-    {
-      PyObject* resultObject = PyObject_Repr( resultAttr );
-      resultValue = PyUnicode_AsUTF8( resultObject );
-      Py_DECREF( resultObject );
-    }
-  #else
-    PyObject* resultObject;
-
-    if( resultUtf8 != NULL )
-    {
-      resultObject = PyObject_Str( resultUtf8 );
-    }
-    else
-    {
-      resultObject = PyObject_Repr( resultAttr );
-    }
-
-    resultValue = PyString_AsString( resultObject );
-
-    if( resultValue.size() != 0 && resultValue[ resultValue.size() - 1 ] == 'L' )
-    {
-      resultValue.resize( resultValue.size() - 1 );
-    }
-
+#if PY_MAJOR_VERSION >= 3
+  if( resultUtf8 != NULL )
+  {
+    resultValue = PyUnicode_AsUTF8( resultAttr );
+  }
+  else
+  {
+    PyObject* resultObject = PyObject_Repr( resultAttr );
+    resultValue = PyUnicode_AsUTF8( resultObject );
     Py_DECREF( resultObject );
-  #endif
+  }
+#else
+  PyObject* resultObject;
+
+  if( resultUtf8 != NULL )
+  {
+    resultObject = PyObject_Str( resultUtf8 );
+  }
+  else
+  {
+    resultObject = PyObject_Repr( resultAttr );
+  }
+
+  resultValue = PyString_AsString( resultObject );
+
+  if( resultValue.size() != 0 && resultValue[ resultValue.size() - 1 ] == 'L' )
+  {
+    resultValue.resize( resultValue.size() - 1 );
+  }
+
+  Py_DECREF( resultObject );
+#endif
 
   Py_DECREF( mainModule );
   Py_DECREF( resultAttr );
@@ -170,7 +170,7 @@ PyMODINIT_FUNC _Ecs_PyInit()
 {
   PyMethodDef nullMethod =
   {
-    NULL, NULL, NULL
+    NULL, NULL, 0
   };
   EcsPythonMethods.push_back( nullMethod );
 

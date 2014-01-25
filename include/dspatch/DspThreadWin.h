@@ -35,10 +35,10 @@ class DspThread
 {
 public:
   DspThread()
-  : _threadHandle( NULL ) {}
+    : _threadHandle( NULL ) {}
 
   DspThread( const DspThread& )
-  : _threadHandle( NULL ) {}
+    : _threadHandle( NULL ) {}
 
   virtual ~DspThread()
   {

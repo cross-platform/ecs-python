@@ -34,20 +34,20 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #ifdef _WIN32
 
-  #ifdef ECS_EXPORT
-    #define DLLPORT __declspec(dllexport)
-  #else
-    #define DLLPORT __declspec(dllimport)
-  #endif
+#ifdef ECS_EXPORT
+#define DLLPORT __declspec(dllexport)
+#else
+#define DLLPORT __declspec(dllimport)
+#endif
 
 #else
 
-  #define DLLPORT
+#define DLLPORT
 
 #endif
 
-#include "EcsMacros.h"
-#include "DspThread.h"
+#include <ecspython/EcsMacros.h>
+#include <dspatch/DspThread.h>
 
 struct PyMethodDef;
 
@@ -57,24 +57,24 @@ struct PyMethodDef;
 
 struct DLLEXPORT EcsClass
 {
-	EcsClass( std::string newPyClassName, const std::type_info& newPyClassType )
-	: pyClassName( newPyClassName ),
-		pyClassType( newPyClassType ) {}
+  EcsClass( std::string newPyClassName, const std::type_info& newPyClassType )
+    : pyClassName( newPyClassName ),
+      pyClassType( newPyClassType ) {}
 
-	std::string pyClassName;
-	const std::type_info& pyClassType;
+  std::string pyClassName;
+  const std::type_info& pyClassType;
 };
 
 struct DLLEXPORT EcsObject
 {
-	EcsObject( char* newPyObject, std::string newPyClassName, std::string newPyObjectName )
-	: pyObject( newPyObject ),
-		pyClassName( newPyClassName ),
-		pyObjectName( newPyObjectName ) {}
+  EcsObject( char* newPyObject, std::string newPyClassName, std::string newPyObjectName )
+    : pyObject( newPyObject ),
+      pyClassName( newPyClassName ),
+      pyObjectName( newPyObjectName ) {}
 
-	char* pyObject;
-	std::string pyClassName;
-	std::string pyObjectName;
+  char* pyObject;
+  std::string pyClassName;
+  std::string pyObjectName;
 };
 
 DLLPORT extern DspMutex EcsPythonCmdMutex;											// Mutex for thread-safe python calls
@@ -126,16 +126,16 @@ DLLEXPORT void _Ecs_Expose_Object( char* pyObject, std::string pyClassName, std:
 template< class ObjectType >
 DLLEXPORT void Ecs_Expose_Object( ObjectType* object, std::string pyObjectName )
 {
-	for( unsigned long i = 0; i < EcsPythonClassesDict.size(); i++ )
-	{
-		if( EcsPythonClassesDict[i]->pyClassType == typeid( ObjectType ) )
-		{
-			// Get object pointer from C++ to Python
-			char* pyObject = ( char* ) ( object );
-			_Ecs_Expose_Object( pyObject, EcsPythonClassesDict[i]->pyClassName, pyObjectName );
-			EcsExposedObjects.push_back( new EcsObject( pyObject, EcsPythonClassesDict[i]->pyClassName, pyObjectName ) );
-		}
-	}
+  for( unsigned long i = 0; i < EcsPythonClassesDict.size(); i++ )
+  {
+    if( EcsPythonClassesDict[i]->pyClassType == typeid( ObjectType ) )
+    {
+      // Get object pointer from C++ to Python
+      char* pyObject = ( char* ) ( object );
+      _Ecs_Expose_Object( pyObject, EcsPythonClassesDict[i]->pyClassName, pyObjectName );
+      EcsExposedObjects.push_back( new EcsObject( pyObject, EcsPythonClassesDict[i]->pyClassName, pyObjectName ) );
+    }
+  }
 }
 
 //=================================================================================================

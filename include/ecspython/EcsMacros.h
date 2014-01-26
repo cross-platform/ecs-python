@@ -193,7 +193,7 @@ static void Ecs_Init##_##Class##_##Method()\
 template< class ObjT, class RetT >\
 static RetT Class##_##Call##Method( PyObject* args, bool& success )\
 {\
-  success = true;	char* obj; std::string pyTypes = "K";\
+  success = true;	char* obj; std::string pyTypes = "k";\
   if( _Ecs_ParseTuple( args, pyTypes.c_str(), &obj ) )\
     return ( RetT )( ( ObjT* ) obj )->Method();\
   success = false; return RetT();\
@@ -201,7 +201,7 @@ static RetT Class##_##Call##Method( PyObject* args, bool& success )\
 template< class ObjT, class RetT, class A1T >\
 static RetT Class##_##Call##Method( PyObject* args, bool& success )\
 {\
-  success = true;	char* objs[2]; std::string pyTypes = "K";\
+  success = true;	char* objs[2]; std::string pyTypes = "k";\
   _Ecs_AppendPythonArgType<A1T>( pyTypes );\
   if( _Ecs_ParseTuple( args, pyTypes.c_str(), &objs[0], &objs[1] ) )\
     return ( RetT )( ( ObjT* ) objs[0] )->Method( (A1T)objs[1] );\
@@ -210,7 +210,7 @@ static RetT Class##_##Call##Method( PyObject* args, bool& success )\
 template< class ObjT, class RetT, class A1T, class A2T >\
 static RetT Class##_##Call##Method( PyObject* args, bool& success )\
 {\
-  success = true;	char* objs[3]; std::string pyTypes = "K";\
+  success = true;	char* objs[3]; std::string pyTypes = "k";\
   _Ecs_AppendPythonArgType<A1T>( pyTypes );\
   _Ecs_AppendPythonArgType<A2T>( pyTypes );\
   if( _Ecs_ParseTuple( args, pyTypes.c_str(), &objs[0], &objs[1], &objs[2] ) )\
@@ -220,7 +220,7 @@ static RetT Class##_##Call##Method( PyObject* args, bool& success )\
 template< class ObjT, class RetT, class A1T, class A2T, class A3T >\
 static RetT Class##_##Call##Method( PyObject* args, bool& success )\
 {\
-  success = true;	char* objs[4]; std::string pyTypes = "K";\
+  success = true;	char* objs[4]; std::string pyTypes = "k";\
   _Ecs_AppendPythonArgType<A1T>( pyTypes );\
   _Ecs_AppendPythonArgType<A2T>( pyTypes );\
   _Ecs_AppendPythonArgType<A3T>( pyTypes );\
@@ -231,7 +231,7 @@ static RetT Class##_##Call##Method( PyObject* args, bool& success )\
 template< class ObjT, class RetT, class A1T, class A2T, class A3T, class A4T >\
 static RetT Class##_##Call##Method( PyObject* args, bool& success )\
 {\
-  success = true;	char* objs[5]; std::string pyTypes = "K";\
+  success = true;	char* objs[5]; std::string pyTypes = "k";\
   _Ecs_AppendPythonArgType<A1T>( pyTypes );\
   _Ecs_AppendPythonArgType<A2T>( pyTypes );\
   _Ecs_AppendPythonArgType<A3T>( pyTypes );\
@@ -243,7 +243,7 @@ static RetT Class##_##Call##Method( PyObject* args, bool& success )\
 template< class ObjT, class RetT, class A1T, class A2T, class A3T, class A4T, class A5T >\
 static RetT Class##_##Call##Method( PyObject* args, bool& success )\
 {\
-  success = true;	char* objs[6]; std::string pyTypes = "K";\
+  success = true;	char* objs[6]; std::string pyTypes = "k";\
   _Ecs_AppendPythonArgType<A1T>( pyTypes );\
   _Ecs_AppendPythonArgType<A2T>( pyTypes );\
   _Ecs_AppendPythonArgType<A3T>( pyTypes );\
@@ -256,7 +256,7 @@ static RetT Class##_##Call##Method( PyObject* args, bool& success )\
 template< class ObjT, class RetT, class A1T, class A2T, class A3T, class A4T, class A5T, class A6T >\
 static RetT Class##_##Call##Method( PyObject* args, bool& success )\
 {\
-  success = true;	char* objs[7]; std::string pyTypes = "K";\
+  success = true;	char* objs[7]; std::string pyTypes = "k";\
   _Ecs_AppendPythonArgType<A1T>( pyTypes );\
   _Ecs_AppendPythonArgType<A2T>( pyTypes );\
   _Ecs_AppendPythonArgType<A3T>( pyTypes );\
@@ -270,7 +270,7 @@ static RetT Class##_##Call##Method( PyObject* args, bool& success )\
 template< class ObjT, class RetT, class A1T, class A2T, class A3T, class A4T, class A5T, class A6T, class A7T >\
 static RetT Class##_##Call##Method( PyObject* args, bool& success )\
 {\
-  success = true;	char* objs[8]; std::string pyTypes = "K";\
+  success = true;	char* objs[8]; std::string pyTypes = "k";\
   _Ecs_AppendPythonArgType<A1T>( pyTypes );\
   _Ecs_AppendPythonArgType<A2T>( pyTypes );\
   _Ecs_AppendPythonArgType<A3T>( pyTypes );\
@@ -285,7 +285,7 @@ static RetT Class##_##Call##Method( PyObject* args, bool& success )\
 template< class ObjT, class RetT, class A1T, class A2T, class A3T, class A4T, class A5T, class A6T, class A7T, class A8T >\
 static RetT Class##_##Call##Method( PyObject* args, bool& success )\
 {\
-  success = true;	char* objs[9]; std::string pyTypes = "K";\
+  success = true;	char* objs[9]; std::string pyTypes = "k";\
   _Ecs_AppendPythonArgType<A1T>( pyTypes );\
   _Ecs_AppendPythonArgType<A2T>( pyTypes );\
   _Ecs_AppendPythonArgType<A3T>( pyTypes );\
@@ -301,7 +301,7 @@ static RetT Class##_##Call##Method( PyObject* args, bool& success )\
 template< class ObjT, class RetT, class A1T, class A2T, class A3T, class A4T, class A5T, class A6T, class A7T, class A8T, class A9T >\
 static RetT Class##_##Call##Method( PyObject* args, bool& success )\
 {\
-  success = true;	char* objs[10]; std::string pyTypes = "K";\
+  success = true;	char* objs[10]; std::string pyTypes = "k";\
   _Ecs_AppendPythonArgType<A1T>( pyTypes );\
   _Ecs_AppendPythonArgType<A2T>( pyTypes );\
   _Ecs_AppendPythonArgType<A3T>( pyTypes );\
@@ -318,7 +318,7 @@ static RetT Class##_##Call##Method( PyObject* args, bool& success )\
 template< class ObjT, class RetT, class A1T, class A2T, class A3T, class A4T, class A5T, class A6T, class A7T, class A8T, class A9T, class A10T >\
 static RetT Class##_##Call##Method( PyObject* args, bool& success )\
 {\
-  success = true;	char* objs[11]; std::string pyTypes = "K";\
+  success = true;	char* objs[11]; std::string pyTypes = "k";\
   _Ecs_AppendPythonArgType<A1T>( pyTypes );\
   _Ecs_AppendPythonArgType<A2T>( pyTypes );\
   _Ecs_AppendPythonArgType<A3T>( pyTypes );\

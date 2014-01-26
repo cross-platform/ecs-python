@@ -8,7 +8,15 @@ add_definitions(
 
 add_subdirectory(example)
 
-find_package(PythonLibs REQUIRED)
+if(UNIX)
+    find_package(PythonLibs REQUIRED)
+endif(UNIX)
+
+if(${CMAKE_SYSTEM_NAME} MATCHES "Windows")    
+    add_definitions(-DECS_EXPORT)
+    set(PYTHON_LIBRARIES "C:/Python27/libs/python27.lib")
+    set(PYTHON_INCLUDE_DIRS "C:/Python27/include")
+endif(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
 
 include_directories(
     ${CMAKE_SOURCE_DIR}/include

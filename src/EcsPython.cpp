@@ -30,11 +30,12 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ************************************************************************/
 
 #include <EcsPython.h>
-#include <Python.h>
 
 #include <fstream>
 #include <iostream>
 #include <string>
+
+#include <Python.h>
 
 PyMODINIT_FUNC _Ecs_PyInit();
 
@@ -201,7 +202,7 @@ void _Ecs_Expose_Object( char* pyObject, std::string pyClassName, std::string py
 {
   std::string pythonCall;
   PyObject* module = NULL;
-  PyObject* newPyObject = Py_BuildValue( "i", pyObject );
+  PyObject* newPyObject = Py_BuildValue( "K", pyObject );
 
   Ecs_Python_Cmd("ecsPtr = 0");
 

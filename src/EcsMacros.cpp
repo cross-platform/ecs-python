@@ -1,6 +1,6 @@
 /************************************************************************
 ECS:Python - Light-Weight C++ Wrapper For Embedding Python Into C++
-Copyright (c) 2012-2013 Marcus Tomlinson
+Copyright (c) 2012-2014 Marcus Tomlinson
 
 This file is part of EcsPython.
 
@@ -64,7 +64,7 @@ if( _Ecs_ParseTuple == NULL )
 _Ecs_ParseTuple = PyArg_ParseTuple;
 }
 
-PyMethodDef newMethod = { methodName, methodPointer, methodFlags };
+PyMethodDef newMethod = { methodName, methodPointer, methodFlags, NULL };
 EcsPythonMethods.push_back( newMethod );
 }
 

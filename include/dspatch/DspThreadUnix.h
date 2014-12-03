@@ -1,6 +1,6 @@
 /************************************************************************
 DSPatch - Cross-Platform, Object-Oriented, Flow-Based Programming Library
-Copyright (c) 2012-2013 Marcus Tomlinson
+Copyright (c) 2012-2014 Marcus Tomlinson
 
 This file is part of DSPatch.
 
@@ -35,7 +35,8 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 class DspThread
 {
 public:
-  DspThread() {}
+  DspThread()
+  : _threadAttatched( false ) {}
 
   virtual ~DspThread()
   {
@@ -52,19 +53,24 @@ public:
     HighPriority,
     HighestPriority,
 
-    TimeCriticalPriority,
+    TimeCriticalPriority
   };
 
   virtual void Start( Priority priority = NormalPriority )
   {
     pthread_create( &_thread, NULL, _ThreadFunc, this );
+    _threadAttatched = true;
 
     _SetPriority( _thread, priority );
   }
 
   virtual void Stop()
   {
-    pthread_detach( _thread );
+    if( _threadAttatched )
+    {
+      pthread_detach( _thread );
+      _threadAttatched = false;
+    }
   }
 
   static void SetPriority( Priority priority )
@@ -78,8 +84,6 @@ public:
   }
 
 private:
-  pthread_t _thread;
-
   static void* _ThreadFunc( void* pv )
   {
     ( reinterpret_cast<DspThread*>( pv ) )->_Run();
@@ -100,14 +104,16 @@ private:
 
     pthread_setschedparam( threadID, policy, &param );
   }
+
+private:
+  pthread_t _thread;
+  bool _threadAttatched;
 };
 
 //=================================================================================================
 
 class DspMutex
 {
-  friend class DspWaitCondition;
-
 public:
   DspMutex()
   {
@@ -130,6 +136,8 @@ public:
   }
 
 private:
+  friend class DspWaitCondition;
+
   pthread_mutex_t _mutex;
 };
 

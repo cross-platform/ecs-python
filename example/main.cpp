@@ -1,6 +1,6 @@
 /************************************************************************
 ECS:Python - Light-Weight C++ Wrapper For Embedding Python Into C++
-Copyright (c) 2012-2013 Marcus Tomlinson
+Copyright (c) 2012-2014 Marcus Tomlinson
 
 This file is part of EcsPython.
 
@@ -70,10 +70,10 @@ private:
 
 // Register Classes + Methods
 // ==========================
-ECS_REGISTER_CLASS( Simple );
-ECS_REGISTER_METHOD_RETURN( Simple, Show, bool, std::string );
-ECS_REGISTER_METHOD_VOID( Simple, ShowLots, unsigned long, std::string );
-ECS_REGISTER_METHOD_RETURN( Simple, GetLastMessage, std::string );
+ECS_REGISTER_CLASS( Simple )
+ECS_REGISTER_METHOD_RETURN( Simple, Show, bool, std::string )
+ECS_REGISTER_METHOD_VOID( Simple, ShowLots, unsigned long, std::string )
+ECS_REGISTER_METHOD_RETURN( Simple, GetLastMessage, std::string )
 
 //=================================================================================================
 
@@ -105,7 +105,7 @@ int main()
   Ecs_Python_Cmd( "print( newSimple.GetLastMessage() )" );
 
   Ecs_Python_Cmd( "state = newSimple.Show( 'hello' )" );
-  Ecs_Python_Cmd( "if state == True: \n\t print( ' there,' )" );
+  Ecs_Python_Cmd( "if state == True:\n\tprint( ' there,' )" );
 
   Ecs_Python_Cmd( "newSimple.ShowLots( 5, 'again and ' )" );
 

@@ -1,6 +1,6 @@
 /************************************************************************
 ECS:Python - Light-Weight C++ Wrapper For Embedding Python Into C++
-Copyright (c) 2012-2013 Marcus Tomlinson
+Copyright (c) 2012-2014 Marcus Tomlinson
 
 This file is part of EcsPython.
 
@@ -77,14 +77,14 @@ struct DLLEXPORT EcsObject
   std::string pyObjectName;
 };
 
-DLLPORT extern DspMutex EcsPythonCmdMutex;											// Mutex for thread-safe python calls
-DLLPORT extern std::vector< EcsClass* > EcsPythonClassesDict;		// C++ class dictionary
-DLLPORT extern std::string EcsPythonClassesDef;									// Python definition string for C++ classes 
-DLLPORT extern std::vector< PyMethodDef > EcsPythonMethods;			// Methods for EcsPython python module
-DLLPORT extern std::vector< EcsObject* > EcsExposedObjects;			// C++ objects exposed to Python
+DLLPORT extern DspMutex EcsPythonCmdMutex;                    // Mutex for thread-safe python calls
+DLLPORT extern std::vector< EcsClass* > EcsPythonClassesDict; // C++ class dictionary
+DLLPORT extern std::string EcsPythonClassesDef;               // Python definition string for C++ classes
+DLLPORT extern std::vector< PyMethodDef > EcsPythonMethods;   // Methods for EcsPython python module
+DLLPORT extern std::vector< EcsObject* > EcsExposedObjects;   // C++ objects exposed to Python
 
 #if PY_MAJOR_VERSION >= 3
-DLLPORT extern struct PyModuleDef EcsPythonModule;							// EcsPython python module
+DLLPORT extern struct PyModuleDef EcsPythonModule; // EcsPython python module
 #endif
 
 //=================================================================================================

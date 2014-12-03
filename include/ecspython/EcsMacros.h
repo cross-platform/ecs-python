@@ -1,6 +1,6 @@
 /************************************************************************
 ECS:Python - Light-Weight C++ Wrapper For Embedding Python Into C++
-Copyright (c) 2012-2013 Marcus Tomlinson
+Copyright (c) 2012-2014 Marcus Tomlinson
 
 This file is part of EcsPython.
 
@@ -167,11 +167,11 @@ static std::string _Ecs_MakeMethodArgs()
 static void Ecs_Init##_##Class()\
 {\
   EcsPythonClassesDict.push_back( new EcsClass( #Class, typeid( Class ) ) );\
-  EcsPythonClassesDef.append("class " #Class ": \n\
-\t def SetEcsPtr( self, i ): \n\
-\t\t self._self = i \n\
-\t def GetEcsPtr( self ): \n\
-\t\t return self._self \n");\
+  EcsPythonClassesDef.append("class " #Class ":\n\
+\tdef SetEcsPtr( self, i ):\n\
+\t\tself._self = i\n\
+\tdef GetEcsPtr( self ):\n\
+\t\treturn self._self\n");\
 }
 
 //=================================================================================================
@@ -183,8 +183,8 @@ static void Ecs_Init##_##Class##_##Method()\
 {\
   std::string methodArgs = _Ecs_MakeMethodArgs< __VA_ARGS__ >();\
   _EcsAddNewMethod( #Class "_" #Method, Class##_##Method, 0x0001 );\
-  EcsPythonClassesDef.append( "\t def " #Method "( self").append(methodArgs).append(" ): \n\
-\t\t return EcsPython." #Class "_" #Method "( self._self").append(methodArgs).append(" ) \n" );\
+  EcsPythonClassesDef.append( "\tdef " #Method "( self").append(methodArgs).append(" ):\n\
+\t\treturn EcsPython." #Class "_" #Method "( self._self").append(methodArgs).append(" )\n" );\
 }
 
 //-------------------------------------------------------------------------------------------------
@@ -338,7 +338,7 @@ static RetT Class##_##Call##Method( PyObject* args, bool& success )\
 
 #define ECS_REGISTER_METHOD_RETURN( Class, Method, ReturnType, ... )\
 _MAKE_METHOD_CALL( Class, Method )\
-static PyObject* Class##_##Method( PyObject* self, PyObject* args )\
+static PyObject* Class##_##Method( PyObject*, PyObject* args )\
 {\
   bool success;\
   PyObject* result = _Ecs_GetPythonReturnValue( Class##_##Call##Method< Class, ReturnType, ##__VA_ARGS__ >( args, success ) );\
@@ -353,7 +353,7 @@ _MAKE_METHOD_INIT( Class, Method, ReturnType, ##__VA_ARGS__ )
 
 #define ECS_REGISTER_METHOD_VOID( Class, Method, ... )\
 _MAKE_METHOD_CALL( Class, Method )\
-static PyObject* Class##_##Method( PyObject* self, PyObject* args )\
+static PyObject* Class##_##Method( PyObject*, PyObject* args )\
 {\
   bool success;\
   Class##_##Call##Method< Class, void, ##__VA_ARGS__ >( args, success );\

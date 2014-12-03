@@ -52,7 +52,7 @@ DLLEXPORT void _EcsAddNewMethod( const char *methodName, PyCFunction methodPoint
 //-------------------------------------------------------------------------------------------------
 
 template< class Type >
-DLLEXPORT PyObject* _Ecs_GetPythonReturnValue( const Type& Value );
+DLLEXPORT PyObject* _Ecs_ToPyObject( const Type& Value );
 
 //-------------------------------------------------------------------------------------------------
 
@@ -99,6 +99,24 @@ static void _Ecs_AppendPythonArgType( std::string& pyTypes )
     append = "f";
 
   pyTypes.append( append );
+}
+
+//-------------------------------------------------------------------------------------------------
+
+template< class Type >
+void _Ecs_FromPyObject( char* in, Type& out )
+{
+  out = (Type)in;
+}
+
+inline void _Ecs_FromPyObject( char* in, double& out )
+{
+  out = *(double*)&in;
+}
+
+inline void _Ecs_FromPyObject( char* in, float& out )
+{
+  out = *(float*)&in;
 }
 
 //-------------------------------------------------------------------------------------------------
@@ -204,7 +222,10 @@ static RetT Class##_##Call##Method( PyObject* args, bool& success )\
   success = true; char* objs[2]; std::string pyTypes = "k";\
   _Ecs_AppendPythonArgType<A1T>( pyTypes );\
   if( _Ecs_ParseTuple( args, pyTypes.c_str(), &objs[0], &objs[1] ) )\
-    return ( RetT )( ( ObjT* ) objs[0] )->Method( (A1T)objs[1] );\
+  {\
+    A1T a1; _Ecs_FromPyObject(objs[1], a1);\
+    return ( RetT )( ( ObjT* ) objs[0] )->Method( a1 );\
+  }\
   success = false; return RetT();\
 }\
 template< class ObjT, class RetT, class A1T, class A2T >\
@@ -214,7 +235,11 @@ static RetT Class##_##Call##Method( PyObject* args, bool& success )\
   _Ecs_AppendPythonArgType<A1T>( pyTypes );\
   _Ecs_AppendPythonArgType<A2T>( pyTypes );\
   if( _Ecs_ParseTuple( args, pyTypes.c_str(), &objs[0], &objs[1], &objs[2] ) )\
-    return ( RetT )( ( ObjT* ) objs[0] )->Method( (A1T)objs[1], (A2T)objs[2] );\
+  {\
+    A1T a1; _Ecs_FromPyObject(objs[1], a1);\
+    A2T a2; _Ecs_FromPyObject(objs[2], a2);\
+    return ( RetT )( ( ObjT* ) objs[0] )->Method( a1, a2 );\
+  }\
   success = false; return RetT();\
 }\
 template< class ObjT, class RetT, class A1T, class A2T, class A3T >\
@@ -225,7 +250,12 @@ static RetT Class##_##Call##Method( PyObject* args, bool& success )\
   _Ecs_AppendPythonArgType<A2T>( pyTypes );\
   _Ecs_AppendPythonArgType<A3T>( pyTypes );\
   if( _Ecs_ParseTuple( args, pyTypes.c_str(), &objs[0], &objs[1], &objs[2], &objs[3] ) )\
-    return ( RetT )( ( ObjT* ) objs[0] )->Method( (A1T)objs[1], (A2T)objs[2], (A3T)objs[3] );\
+  {\
+    A1T a1; _Ecs_FromPyObject(objs[1], a1);\
+    A2T a2; _Ecs_FromPyObject(objs[2], a2);\
+    A3T a3; _Ecs_FromPyObject(objs[3], a3);\
+    return ( RetT )( ( ObjT* ) objs[0] )->Method( a1, a2, a3 );\
+  }\
   success = false; return RetT();\
 }\
 template< class ObjT, class RetT, class A1T, class A2T, class A3T, class A4T >\
@@ -237,7 +267,13 @@ static RetT Class##_##Call##Method( PyObject* args, bool& success )\
   _Ecs_AppendPythonArgType<A3T>( pyTypes );\
   _Ecs_AppendPythonArgType<A4T>( pyTypes );\
   if( _Ecs_ParseTuple( args, pyTypes.c_str(), &objs[0], &objs[1], &objs[2], &objs[3], &objs[4] ) )\
-    return ( RetT )( ( ObjT* ) objs[0] )->Method( (A1T)objs[1], (A2T)objs[2], (A3T)objs[3], (A4T)objs[4] );\
+  {\
+    A1T a1; _Ecs_FromPyObject(objs[1], a1);\
+    A2T a2; _Ecs_FromPyObject(objs[2], a2);\
+    A3T a3; _Ecs_FromPyObject(objs[3], a3);\
+    A4T a4; _Ecs_FromPyObject(objs[4], a4);\
+    return ( RetT )( ( ObjT* ) objs[0] )->Method( a1, a2, a3, a4 );\
+  }\
   success = false; return RetT();\
 }\
 template< class ObjT, class RetT, class A1T, class A2T, class A3T, class A4T, class A5T >\
@@ -250,7 +286,14 @@ static RetT Class##_##Call##Method( PyObject* args, bool& success )\
   _Ecs_AppendPythonArgType<A4T>( pyTypes );\
   _Ecs_AppendPythonArgType<A5T>( pyTypes );\
   if( _Ecs_ParseTuple( args, pyTypes.c_str(), &objs[0], &objs[1], &objs[2], &objs[3], &objs[4], &objs[5] ) )\
-    return ( RetT )( ( ObjT* ) objs[0] )->Method( (A1T)objs[1], (A2T)objs[2], (A3T)objs[3], (A4T)objs[4], (A5T)objs[5] );\
+  {\
+    A1T a1; _Ecs_FromPyObject(objs[1], a1);\
+    A2T a2; _Ecs_FromPyObject(objs[2], a2);\
+    A3T a3; _Ecs_FromPyObject(objs[3], a3);\
+    A4T a4; _Ecs_FromPyObject(objs[4], a4);\
+    A5T a5; _Ecs_FromPyObject(objs[5], a5);\
+    return ( RetT )( ( ObjT* ) objs[0] )->Method( a1, a2, a3, a4, a5 );\
+  }\
   success = false; return RetT();\
 }\
 template< class ObjT, class RetT, class A1T, class A2T, class A3T, class A4T, class A5T, class A6T >\
@@ -264,7 +307,15 @@ static RetT Class##_##Call##Method( PyObject* args, bool& success )\
   _Ecs_AppendPythonArgType<A5T>( pyTypes );\
   _Ecs_AppendPythonArgType<A6T>( pyTypes );\
   if( _Ecs_ParseTuple( args, pyTypes.c_str(), &objs[0], &objs[1], &objs[2], &objs[3], &objs[4], &objs[5], &objs[6] ) )\
-    return ( RetT )( ( ObjT* ) objs[0] )->Method( (A1T)objs[1], (A2T)objs[2], (A3T)objs[3], (A4T)objs[4], (A5T)objs[5], (A6T)objs[6] );\
+  {\
+    A1T a1; _Ecs_FromPyObject(objs[1], a1);\
+    A2T a2; _Ecs_FromPyObject(objs[2], a2);\
+    A3T a3; _Ecs_FromPyObject(objs[3], a3);\
+    A4T a4; _Ecs_FromPyObject(objs[4], a4);\
+    A5T a5; _Ecs_FromPyObject(objs[5], a5);\
+    A6T a6; _Ecs_FromPyObject(objs[6], a6);\
+    return ( RetT )( ( ObjT* ) objs[0] )->Method( a1, a2, a3, a4, a5, a6 );\
+  }\
   success = false; return RetT();\
 }\
 template< class ObjT, class RetT, class A1T, class A2T, class A3T, class A4T, class A5T, class A6T, class A7T >\
@@ -279,7 +330,16 @@ static RetT Class##_##Call##Method( PyObject* args, bool& success )\
   _Ecs_AppendPythonArgType<A6T>( pyTypes );\
   _Ecs_AppendPythonArgType<A7T>( pyTypes );\
   if( _Ecs_ParseTuple( args, pyTypes.c_str(), &objs[0], &objs[1], &objs[2], &objs[3], &objs[4], &objs[5], &objs[6], &objs[7] ) )\
-    return ( RetT )( ( ObjT* ) objs[0] )->Method( (A1T)objs[1], (A2T)objs[2], (A3T)objs[3], (A4T)objs[4], (A5T)objs[5], (A6T)objs[6], (A7T)objs[7] );\
+  {\
+    A1T a1; _Ecs_FromPyObject(objs[1], a1);\
+    A2T a2; _Ecs_FromPyObject(objs[2], a2);\
+    A3T a3; _Ecs_FromPyObject(objs[3], a3);\
+    A4T a4; _Ecs_FromPyObject(objs[4], a4);\
+    A5T a5; _Ecs_FromPyObject(objs[5], a5);\
+    A6T a6; _Ecs_FromPyObject(objs[6], a6);\
+    A7T a7; _Ecs_FromPyObject(objs[7], a7);\
+    return ( RetT )( ( ObjT* ) objs[0] )->Method( a1, a2, a3, a4, a5, a6, a7 );\
+  }\
   success = false; return RetT();\
 }\
 template< class ObjT, class RetT, class A1T, class A2T, class A3T, class A4T, class A5T, class A6T, class A7T, class A8T >\
@@ -295,7 +355,17 @@ static RetT Class##_##Call##Method( PyObject* args, bool& success )\
   _Ecs_AppendPythonArgType<A7T>( pyTypes );\
   _Ecs_AppendPythonArgType<A8T>( pyTypes );\
   if( _Ecs_ParseTuple( args, pyTypes.c_str(), &objs[0], &objs[1], &objs[2], &objs[3], &objs[4], &objs[5], &objs[6], &objs[7], &objs[8] ) )\
-    return ( RetT )( ( ObjT* ) objs[0] )->Method( (A1T)objs[1], (A2T)objs[2], (A3T)objs[3], (A4T)objs[4], (A5T)objs[5], (A6T)objs[6], (A7T)objs[7], (A8T)objs[8] );\
+  {\
+    A1T a1; _Ecs_FromPyObject(objs[1], a1);\
+    A2T a2; _Ecs_FromPyObject(objs[2], a2);\
+    A3T a3; _Ecs_FromPyObject(objs[3], a3);\
+    A4T a4; _Ecs_FromPyObject(objs[4], a4);\
+    A5T a5; _Ecs_FromPyObject(objs[5], a5);\
+    A6T a6; _Ecs_FromPyObject(objs[6], a6);\
+    A7T a7; _Ecs_FromPyObject(objs[7], a7);\
+    A8T a8; _Ecs_FromPyObject(objs[8], a8);\
+    return ( RetT )( ( ObjT* ) objs[0] )->Method( a1, a2, a3, a4, a5, a6, a7, a8 );\
+  }\
   success = false; return RetT();\
 }\
 template< class ObjT, class RetT, class A1T, class A2T, class A3T, class A4T, class A5T, class A6T, class A7T, class A8T, class A9T >\
@@ -312,7 +382,18 @@ static RetT Class##_##Call##Method( PyObject* args, bool& success )\
   _Ecs_AppendPythonArgType<A8T>( pyTypes );\
   _Ecs_AppendPythonArgType<A9T>( pyTypes );\
   if( _Ecs_ParseTuple( args, pyTypes.c_str(), &objs[0], &objs[1], &objs[2], &objs[3], &objs[4], &objs[5], &objs[6], &objs[7], &objs[8], &objs[9] ) )\
-    return ( RetT )( ( ObjT* ) objs[0] )->Method( (A1T)objs[1], (A2T)objs[2], (A3T)objs[3], (A4T)objs[4], (A5T)objs[5], (A6T)objs[6], (A7T)objs[7], (A8T)objs[8], (A9T)objs[9] );\
+  {\
+    A1T a1; _Ecs_FromPyObject(objs[1], a1);\
+    A2T a2; _Ecs_FromPyObject(objs[2], a2);\
+    A3T a3; _Ecs_FromPyObject(objs[3], a3);\
+    A4T a4; _Ecs_FromPyObject(objs[4], a4);\
+    A5T a5; _Ecs_FromPyObject(objs[5], a5);\
+    A6T a6; _Ecs_FromPyObject(objs[6], a6);\
+    A7T a7; _Ecs_FromPyObject(objs[7], a7);\
+    A8T a8; _Ecs_FromPyObject(objs[8], a8);\
+    A9T a9; _Ecs_FromPyObject(objs[9], a9);\
+    return ( RetT )( ( ObjT* ) objs[0] )->Method( a1, a2, a3, a4, a5, a6, a7, a8, a9 );\
+  }\
   success = false; return RetT();\
 }\
 template< class ObjT, class RetT, class A1T, class A2T, class A3T, class A4T, class A5T, class A6T, class A7T, class A8T, class A9T, class A10T >\
@@ -330,7 +411,19 @@ static RetT Class##_##Call##Method( PyObject* args, bool& success )\
   _Ecs_AppendPythonArgType<A9T>( pyTypes );\
   _Ecs_AppendPythonArgType<A10T>( pyTypes );\
   if( _Ecs_ParseTuple( args, pyTypes.c_str(), &objs[0], &objs[1], &objs[2], &objs[3], &objs[4], &objs[5], &objs[6], &objs[7], &objs[8], &objs[9], &objs[10] ) )\
-    return ( RetT )( ( ObjT* ) objs[0] )->Method( (A1T)objs[1], (A2T)objs[2], (A3T)objs[3], (A4T)objs[4], (A5T)objs[5], (A6T)objs[6], (A7T)objs[7], (A8T)objs[8], (A9T)objs[9], (A10T)objs[10] );\
+  {\
+    A1T a1; _Ecs_FromPyObject(objs[1], a1);\
+    A2T a2; _Ecs_FromPyObject(objs[2], a2);\
+    A3T a3; _Ecs_FromPyObject(objs[3], a3);\
+    A4T a4; _Ecs_FromPyObject(objs[4], a4);\
+    A5T a5; _Ecs_FromPyObject(objs[5], a5);\
+    A6T a6; _Ecs_FromPyObject(objs[6], a6);\
+    A7T a7; _Ecs_FromPyObject(objs[7], a7);\
+    A8T a8; _Ecs_FromPyObject(objs[8], a8);\
+    A9T a9; _Ecs_FromPyObject(objs[9], a9);\
+    A10T a10; _Ecs_FromPyObject(objs[10], a10);\
+    return ( RetT )( ( ObjT* ) objs[0] )->Method( a1, a2, a3, a4, a5, a6, a7, a8, a9, a10 );\
+  }\
   success = false; return RetT();\
 }
 
@@ -341,7 +434,7 @@ _MAKE_METHOD_CALL( Class, Method )\
 static PyObject* Class##_##Method( PyObject*, PyObject* args )\
 {\
   bool success;\
-  PyObject* result = _Ecs_GetPythonReturnValue( Class##_##Call##Method< Class, ReturnType, ##__VA_ARGS__ >( args, success ) );\
+  PyObject* result = _Ecs_ToPyObject( Class##_##Call##Method< Class, ReturnType, ##__VA_ARGS__ >( args, success ) );\
   if( success )\
     return result;\
   else\

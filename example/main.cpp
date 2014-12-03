@@ -50,6 +50,12 @@ public:
     return true;
   }
 
+  float ShowDouble( double message )
+  {
+    std::cout << message;
+    return message;
+  }
+
   void ShowLots( unsigned long count, std::string message )
   {
     for( unsigned int i = 0; i < count; i++ )
@@ -72,6 +78,7 @@ private:
 // ==========================
 ECS_REGISTER_CLASS( Simple )
 ECS_REGISTER_METHOD_RETURN( Simple, Show, bool, std::string )
+ECS_REGISTER_METHOD_RETURN( Simple, ShowDouble, float, double )
 ECS_REGISTER_METHOD_VOID( Simple, ShowLots, unsigned long, std::string )
 ECS_REGISTER_METHOD_RETURN( Simple, GetLastMessage, std::string )
 
@@ -85,6 +92,7 @@ int main()
   // ======================
   Ecs_Init_Simple();
   Ecs_Init_Simple_Show();
+  Ecs_Init_Simple_ShowDouble();
   Ecs_Init_Simple_ShowLots();
   Ecs_Init_Simple_GetLastMessage();
 
@@ -103,6 +111,10 @@ int main()
   // Use Exposed Class Instance From Python
   // ======================================
   Ecs_Python_Cmd( "print( newSimple.GetLastMessage() )" );
+
+  Ecs_Python_Cmd( "newSimple.Show( 'my favorite number is ' )" );
+  Ecs_Python_Cmd( "newSimple.ShowDouble( 5.9982 )" );
+  Ecs_Python_Cmd( "print('')" );
 
   Ecs_Python_Cmd( "state = newSimple.Show( 'hello' )" );
   Ecs_Python_Cmd( "if state == True:\n\tprint( ' there,' )" );

@@ -39,21 +39,21 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 DLLPORT int (*_Ecs_ParseTuple)( PyObject *, const char *, ... ) = NULL;
 
-//template PyObject* _Ecs_GetPythonReturnValue( const char*& );
-template DLLEXPORT PyObject* _Ecs_GetPythonReturnValue( const std::string& );
-template DLLEXPORT PyObject* _Ecs_GetPythonReturnValue( const char& );
-template DLLEXPORT PyObject* _Ecs_GetPythonReturnValue( const unsigned char& );
-template DLLEXPORT PyObject* _Ecs_GetPythonReturnValue( const short& );
-template DLLEXPORT PyObject* _Ecs_GetPythonReturnValue( const unsigned short& );
-template DLLEXPORT PyObject* _Ecs_GetPythonReturnValue( const int& );
-template DLLEXPORT PyObject* _Ecs_GetPythonReturnValue( const unsigned int& );
-template DLLEXPORT PyObject* _Ecs_GetPythonReturnValue( const long& );
-template DLLEXPORT PyObject* _Ecs_GetPythonReturnValue( const unsigned long& );
-template DLLEXPORT PyObject* _Ecs_GetPythonReturnValue( const long long& );
-template DLLEXPORT PyObject* _Ecs_GetPythonReturnValue( const unsigned long long& );
-template DLLEXPORT PyObject* _Ecs_GetPythonReturnValue( const bool& );
-template DLLEXPORT PyObject* _Ecs_GetPythonReturnValue( const double& );
-template DLLEXPORT PyObject* _Ecs_GetPythonReturnValue( const float& );
+//template PyObject* _Ecs_ToPyObject( const char*& );
+template DLLEXPORT PyObject* _Ecs_ToPyObject( const std::string& );
+template DLLEXPORT PyObject* _Ecs_ToPyObject( const char& );
+template DLLEXPORT PyObject* _Ecs_ToPyObject( const unsigned char& );
+template DLLEXPORT PyObject* _Ecs_ToPyObject( const short& );
+template DLLEXPORT PyObject* _Ecs_ToPyObject( const unsigned short& );
+template DLLEXPORT PyObject* _Ecs_ToPyObject( const int& );
+template DLLEXPORT PyObject* _Ecs_ToPyObject( const unsigned int& );
+template DLLEXPORT PyObject* _Ecs_ToPyObject( const long& );
+template DLLEXPORT PyObject* _Ecs_ToPyObject( const unsigned long& );
+template DLLEXPORT PyObject* _Ecs_ToPyObject( const long long& );
+template DLLEXPORT PyObject* _Ecs_ToPyObject( const unsigned long long& );
+template DLLEXPORT PyObject* _Ecs_ToPyObject( const bool& );
+template DLLEXPORT PyObject* _Ecs_ToPyObject( const double& );
+template DLLEXPORT PyObject* _Ecs_ToPyObject( const float& );
 
 //=================================================================================================
 
@@ -71,7 +71,7 @@ EcsPythonMethods.push_back( newMethod );
 //-------------------------------------------------------------------------------------------------
 
 template< class Type >
-PyObject* _Ecs_GetPythonReturnValue( const Type& Value )
+PyObject* _Ecs_ToPyObject( const Type& Value )
 {
   if( typeid( Type ) == typeid( char* ) )
     return PyUnicode_FromFormat( "%s", *((char**)(&Value)) );

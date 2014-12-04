@@ -63,13 +63,13 @@ template DLLEXPORT PyObject* _Ecs_ToPyObject( const voidptr& );
 
 void _EcsAddNewMethod( const char *methodName, PyCFunction methodPointer, int methodFlags )
 {
-if( _Ecs_ParseTuple == NULL )
-{
-_Ecs_ParseTuple = PyArg_ParseTuple;
-}
+  if( _Ecs_ParseTuple == NULL )
+  {
+    _Ecs_ParseTuple = PyArg_ParseTuple;
+  }
 
-PyMethodDef newMethod = { methodName, methodPointer, methodFlags, NULL };
-EcsPythonMethods.push_back( newMethod );
+  PyMethodDef newMethod = { methodName, methodPointer, methodFlags, NULL };
+  EcsPythonMethods.push_back( newMethod );
 }
 
 //-------------------------------------------------------------------------------------------------

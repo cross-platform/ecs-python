@@ -56,11 +56,11 @@ public:
     return message;
   }
 
-  void ShowLots( unsigned long count, std::string message )
+  void ShowLots( unsigned long count, char* message )
   {
     for( unsigned int i = 0; i < count; i++ )
     {
-      std::cout << message.c_str();
+      std::cout << message;
     }
     lastMessage = message;
   }
@@ -84,7 +84,7 @@ private:
 ECS_REGISTER_CLASS( Simple )
 ECS_REGISTER_METHOD_RETURN( Simple, Show, bool, std::string )
 ECS_REGISTER_METHOD_RETURN( Simple, ShowDouble, float, double )
-ECS_REGISTER_METHOD_VOID( Simple, ShowLots, unsigned long, std::string )
+ECS_REGISTER_METHOD_VOID( Simple, ShowLots, unsigned long, char* )
 ECS_REGISTER_METHOD_RETURN( Simple, GetLastMessage, std::string )
 ECS_REGISTER_METHOD_VOID( Simple, ShowPtr, void* )
 

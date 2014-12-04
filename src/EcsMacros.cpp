@@ -39,7 +39,10 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 DLLPORT int (*_Ecs_ParseTuple)( PyObject *, const char *, ... ) = NULL;
 
-//template PyObject* _Ecs_ToPyObject( const char*& );
+typedef char* charptr;
+typedef void* voidptr;
+
+template DLLEXPORT PyObject* _Ecs_ToPyObject( const charptr& );
 template DLLEXPORT PyObject* _Ecs_ToPyObject( const std::string& );
 template DLLEXPORT PyObject* _Ecs_ToPyObject( const char& );
 template DLLEXPORT PyObject* _Ecs_ToPyObject( const unsigned char& );
@@ -54,6 +57,7 @@ template DLLEXPORT PyObject* _Ecs_ToPyObject( const unsigned long long& );
 template DLLEXPORT PyObject* _Ecs_ToPyObject( const bool& );
 template DLLEXPORT PyObject* _Ecs_ToPyObject( const double& );
 template DLLEXPORT PyObject* _Ecs_ToPyObject( const float& );
+template DLLEXPORT PyObject* _Ecs_ToPyObject( const voidptr& );
 
 //=================================================================================================
 
@@ -103,6 +107,8 @@ PyObject* _Ecs_ToPyObject( const Type& Value )
     return PyFloat_FromDouble( *((double*)(&Value)) );
   else if( typeid( Type ) == typeid( float ) )
     return PyFloat_FromDouble( *((float*)(&Value)) );
+  else if( typeid( Type ) == typeid( void* ) )
+    return PyLong_FromUnsignedLong( *((unsigned long*)(&Value)) );
   else
     return NULL;
 }

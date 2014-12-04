@@ -37,27 +37,27 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 //=================================================================================================
 
-DLLPORT int (*_Ecs_ParseTuple)( PyObject *, const char *, ... ) = NULL;
+int (*_Ecs_ParseTuple)( PyObject *, const char *, ... ) = NULL;
 
 typedef char* charptr;
 typedef void* voidptr;
 
-template DLLEXPORT PyObject* _Ecs_ToPyObject( const charptr& );
-template DLLEXPORT PyObject* _Ecs_ToPyObject( const std::string& );
-template DLLEXPORT PyObject* _Ecs_ToPyObject( const char& );
-template DLLEXPORT PyObject* _Ecs_ToPyObject( const unsigned char& );
-template DLLEXPORT PyObject* _Ecs_ToPyObject( const short& );
-template DLLEXPORT PyObject* _Ecs_ToPyObject( const unsigned short& );
-template DLLEXPORT PyObject* _Ecs_ToPyObject( const int& );
-template DLLEXPORT PyObject* _Ecs_ToPyObject( const unsigned int& );
-template DLLEXPORT PyObject* _Ecs_ToPyObject( const long& );
-template DLLEXPORT PyObject* _Ecs_ToPyObject( const unsigned long& );
-template DLLEXPORT PyObject* _Ecs_ToPyObject( const long long& );
-template DLLEXPORT PyObject* _Ecs_ToPyObject( const unsigned long long& );
-template DLLEXPORT PyObject* _Ecs_ToPyObject( const bool& );
-template DLLEXPORT PyObject* _Ecs_ToPyObject( const double& );
-template DLLEXPORT PyObject* _Ecs_ToPyObject( const float& );
-template DLLEXPORT PyObject* _Ecs_ToPyObject( const voidptr& );
+template PyObject* _Ecs_ToPyObject( const charptr& );
+template PyObject* _Ecs_ToPyObject( const std::string& );
+template PyObject* _Ecs_ToPyObject( const char& );
+template PyObject* _Ecs_ToPyObject( const unsigned char& );
+template PyObject* _Ecs_ToPyObject( const short& );
+template PyObject* _Ecs_ToPyObject( const unsigned short& );
+template PyObject* _Ecs_ToPyObject( const int& );
+template PyObject* _Ecs_ToPyObject( const unsigned int& );
+template PyObject* _Ecs_ToPyObject( const long& );
+template PyObject* _Ecs_ToPyObject( const unsigned long& );
+template PyObject* _Ecs_ToPyObject( const long long& );
+template PyObject* _Ecs_ToPyObject( const unsigned long long& );
+template PyObject* _Ecs_ToPyObject( const bool& );
+template PyObject* _Ecs_ToPyObject( const double& );
+template PyObject* _Ecs_ToPyObject( const float& );
+template PyObject* _Ecs_ToPyObject( const voidptr& );
 
 //=================================================================================================
 

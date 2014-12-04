@@ -43,14 +43,14 @@ PyMODINIT_FUNC _Ecs_PyInit();
 // EcsPython Globals
 // =================
 
-DLLPORT DspMutex EcsPythonCmdMutex;                    // Mutex for thread-safe python calls
-DLLPORT std::vector< EcsClass* > EcsPythonClassesDict; // C++ class dictionary
-DLLPORT std::string EcsPythonClassesDef;               // Python definition string for C++ classes
-DLLPORT std::vector< PyMethodDef > EcsPythonMethods;   // Methods for EcsPython python module
-DLLPORT std::vector< EcsObject* > EcsExposedObjects;   // C++ objects exposed to Python
+DspMutex EcsPythonCmdMutex;                    // Mutex for thread-safe python calls
+std::vector< EcsClass* > EcsPythonClassesDict; // C++ class dictionary
+std::string EcsPythonClassesDef;               // Python definition string for C++ classes
+std::vector< PyMethodDef > EcsPythonMethods;   // Methods for EcsPython python module
+std::vector< EcsObject* > EcsExposedObjects;   // C++ objects exposed to Python
 
 #if PY_MAJOR_VERSION >= 3
-DLLPORT struct PyModuleDef EcsPythonModule;            // EcsPython python module
+struct PyModuleDef EcsPythonModule;            // EcsPython python module
 #endif
 
 //=================================================================================================

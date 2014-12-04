@@ -36,27 +36,25 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <typeinfo>
 #include <string>
 
-#include <dspatch/DspThread.h>
-
 //=================================================================================================
 
 typedef struct _object PyObject;
 typedef PyObject* (*PyCFunction)( PyObject *, PyObject * );
 
-DLLPORT extern int (*_Ecs_ParseTuple)( PyObject *, const char *, ... );
+extern int (*_Ecs_ParseTuple)( PyObject *, const char *, ... );
 
 //=================================================================================================
 
-DLLEXPORT void _EcsAddNewMethod( const char *methodName, PyCFunction methodPointer, int methodFlags );
+void _EcsAddNewMethod( const char *methodName, PyCFunction methodPointer, int methodFlags );
 
 //-------------------------------------------------------------------------------------------------
 
 template< class Type >
-DLLEXPORT PyObject* _Ecs_ToPyObject( const Type& Value );
+PyObject* _Ecs_ToPyObject( const Type& Value );
 
 //-------------------------------------------------------------------------------------------------
 
-DLLEXPORT PyObject* _Ecs_GetPythonNull();
+PyObject* _Ecs_GetPythonNull();
 
 //=================================================================================================
 // COMMON TOOLS
@@ -94,7 +92,7 @@ static void _Ecs_AppendPythonArgType( std::string& pyTypes )
   else if( typeid( Type ) == typeid( bool ) )
     append = "i";
   else if( typeid( Type ) == typeid( double ) )
-    append = "d";
+    append = "f";
   else if( typeid( Type ) == typeid( float ) )
     append = "f";
   else if( typeid( Type ) == typeid( void* ) )
@@ -113,7 +111,7 @@ void _Ecs_FromPyObject( char* in, Type& out )
 
 inline void _Ecs_FromPyObject( char* in, double& out )
 {
-  out = *(double*)&in;
+  out = *(float*)&in;
 }
 
 inline void _Ecs_FromPyObject( char* in, float& out )

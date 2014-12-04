@@ -32,22 +32,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef ECSPYTHON_H
 #define ECSPYTHON_H
 
-#ifdef _WIN32
-
-#ifdef ECS_EXPORT
-  #define DLLPORT __declspec(dllexport)
-#else
-  #define DLLPORT __declspec(dllimport)
-#endif
-
-#else
-
-#define DLLPORT
-
-#endif
-
-#include <ecspython/EcsMacros.h>
 #include <dspatch/DspThread.h>
+#include <ecspython/EcsMacros.h>
 
 struct PyMethodDef;
 
@@ -55,7 +41,7 @@ struct PyMethodDef;
 // EcsPython Globals
 // =================
 
-struct DLLEXPORT EcsClass
+struct EcsClass
 {
   EcsClass( std::string newPyClassName, const std::type_info& newPyClassType )
     : pyClassName( newPyClassName ),
@@ -65,7 +51,7 @@ struct DLLEXPORT EcsClass
   const std::type_info& pyClassType;
 };
 
-struct DLLEXPORT EcsObject
+struct EcsObject
 {
   EcsObject( char* newPyObject, std::string newPyClassName, std::string newPyObjectName )
     : pyObject( newPyObject ),
@@ -77,54 +63,54 @@ struct DLLEXPORT EcsObject
   std::string pyObjectName;
 };
 
-DLLPORT extern DspMutex EcsPythonCmdMutex;                    // Mutex for thread-safe python calls
-DLLPORT extern std::vector< EcsClass* > EcsPythonClassesDict; // C++ class dictionary
-DLLPORT extern std::string EcsPythonClassesDef;               // Python definition string for C++ classes
-DLLPORT extern std::vector< PyMethodDef > EcsPythonMethods;   // Methods for EcsPython python module
-DLLPORT extern std::vector< EcsObject* > EcsExposedObjects;   // C++ objects exposed to Python
+extern DspMutex EcsPythonCmdMutex;                    // Mutex for thread-safe python calls
+extern std::vector< EcsClass* > EcsPythonClassesDict; // C++ class dictionary
+extern std::string EcsPythonClassesDef;               // Python definition string for C++ classes
+extern std::vector< PyMethodDef > EcsPythonMethods;   // Methods for EcsPython python module
+extern std::vector< EcsObject* > EcsExposedObjects;   // C++ objects exposed to Python
 
 #if PY_MAJOR_VERSION >= 3
-DLLPORT extern struct PyModuleDef EcsPythonModule; // EcsPython python module
+extern struct PyModuleDef EcsPythonModule; // EcsPython python module
 #endif
 
 //=================================================================================================
 // Initialize EcsPython
 // ====================
 
-DLLEXPORT void Ecs_Initialize();
+void Ecs_Initialize();
 
 //-------------------------------------------------------------------------------------------------
 // Finalize EcsPython
 // ==================
 
-DLLEXPORT void Ecs_Finalize();
+void Ecs_Finalize();
 
 //-------------------------------------------------------------------------------------------------
 // Execute Python Command
 // ======================
 
-DLLEXPORT void Ecs_Python_Cmd( std::string pythonCmdString );
+void Ecs_Python_Cmd( std::string pythonCmdString );
 
 //-------------------------------------------------------------------------------------------------
 // Execute Python File
 // ===================
 
-DLLEXPORT void Ecs_Python_File( std::string pythonScriptPath );
+void Ecs_Python_File( std::string pythonScriptPath );
 
 //-------------------------------------------------------------------------------------------------
 // Get Object Value From Python
 // ============================
 
-DLLEXPORT std::string Ecs_Get_Value( std::string pyObjectName );
+std::string Ecs_Get_Value( std::string pyObjectName );
 
 //-------------------------------------------------------------------------------------------------
 // Expose Class Instance To Python
 // ===============================
 
-DLLEXPORT void _Ecs_Expose_Object( char* pyObject, std::string pyClassName, std::string pyObjectName );
+void _Ecs_Expose_Object( char* pyObject, std::string pyClassName, std::string pyObjectName );
 
 template< class ObjectType >
-DLLEXPORT void Ecs_Expose_Object( ObjectType* object, std::string pyObjectName )
+void Ecs_Expose_Object( ObjectType* object, std::string pyObjectName )
 {
   for( unsigned long i = 0; i < EcsPythonClassesDict.size(); i++ )
   {

@@ -53,7 +53,7 @@ public:
   float ShowDouble( double message )
   {
     std::cout << message;
-    return message;
+    return (float)message;
   }
 
   void ShowLots( unsigned long count, char* message )

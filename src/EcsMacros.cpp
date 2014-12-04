@@ -79,7 +79,7 @@ PyObject* _Ecs_ToPyObject( const Type& Value )
 {
   if( typeid( Type ) == typeid( char* ) )
     return PyUnicode_FromFormat( "%s", *((char**)(&Value)) );
-  if( typeid( Type ) == typeid( std::string ) )
+  else if( typeid( Type ) == typeid( std::string ) )
     return PyUnicode_FromFormat( "%s", (*((std::string*)(&Value))).c_str() );
   else if( typeid( Type ) == typeid( char ) )
     return PyUnicode_FromFormat( "%c", *((char*)(&Value)) );

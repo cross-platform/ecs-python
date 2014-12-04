@@ -70,6 +70,11 @@ public:
     return lastMessage;
   }
 
+  void ShowPtr( void* thiz )
+  {
+      ((Simple*)thiz)->Show("Hey! This is coming from a pointer :)");
+  }
+
 private:
   std::string lastMessage;
 };
@@ -81,6 +86,7 @@ ECS_REGISTER_METHOD_RETURN( Simple, Show, bool, std::string )
 ECS_REGISTER_METHOD_RETURN( Simple, ShowDouble, float, double )
 ECS_REGISTER_METHOD_VOID( Simple, ShowLots, unsigned long, std::string )
 ECS_REGISTER_METHOD_RETURN( Simple, GetLastMessage, std::string )
+ECS_REGISTER_METHOD_VOID( Simple, ShowPtr, void* )
 
 //=================================================================================================
 
@@ -95,6 +101,7 @@ int main()
   Ecs_Init_Simple_ShowDouble();
   Ecs_Init_Simple_ShowLots();
   Ecs_Init_Simple_GetLastMessage();
+  Ecs_Init_Simple_ShowPtr();
 
   // Initialize EcsPython
   // ====================
@@ -114,6 +121,9 @@ int main()
 
   Ecs_Python_Cmd( "newSimple.Show( 'my favorite number is ' )" );
   Ecs_Python_Cmd( "newSimple.ShowDouble( 5.9982 )" );
+  Ecs_Python_Cmd( "print('')" );
+
+  Ecs_Python_Cmd( "newSimple.ShowPtr( newSimple() )" );
   Ecs_Python_Cmd( "print('')" );
 
   Ecs_Python_Cmd( "state = newSimple.Show( 'hello' )" );

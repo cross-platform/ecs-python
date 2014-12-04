@@ -188,9 +188,7 @@ static void Ecs_Init##_##Class()\
 {\
   EcsPythonClassesDict.push_back( new EcsClass( #Class, typeid( Class ) ) );\
   EcsPythonClassesDef.append("class " #Class ":\n\
-\tdef SetEcsPtr( self, i ):\n\
-\t\tself._self = i\n\
-\tdef GetEcsPtr( self ):\n\
+\tdef __call__( self ):\n\
 \t\treturn self._self\n");\
 }
 

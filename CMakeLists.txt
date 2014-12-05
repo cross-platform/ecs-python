@@ -1,10 +1,8 @@
 cmake_minimum_required(VERSION 2.8)
 
-project(EcsPython)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC -pthread -Wall -Wextra")
 
-add_definitions(
-    -fpermissive
-)
+project(EcsPython)
 
 add_subdirectory(example)
 
@@ -13,7 +11,6 @@ if(UNIX)
 endif(UNIX)
 
 if(${CMAKE_SYSTEM_NAME} MATCHES "Windows")    
-    add_definitions(-DECS_EXPORT)
     set(PYTHON_LIBRARIES "C:/Python27/libs/python27.lib")
     set(PYTHON_INCLUDE_DIRS "C:/Python27/include")
 endif(${CMAKE_SYSTEM_NAME} MATCHES "Windows")

@@ -156,8 +156,8 @@ int main()
   Ecs_Python_Cmd( "newSimple.Show( 'once more.' )" );
   Ecs_Python_Cmd( "print('')" );
 
-  // Use Class Instance From C++
-  // ===========================
+  // Use The Class Instance From C++
+  // ===============================
   std::cout << "Ok, " << newSimple.GetLastMessage().c_str() << std::endl;
 
 
@@ -166,17 +166,18 @@ int main()
   SimpleFactory simpleFactory;
   Ecs_Expose_Object( &simpleFactory, "simpleFactory" );
 
+  // Create A New Class Instance From Python
+  // =======================================
   Ecs_Python_Cmd( "anotherSimple = Simple( simpleFactory.NewSimple( '\\'Allo ' ) )" );
   Ecs_Python_Cmd( "print( anotherSimple.GetLastMessage() + '\\'Allo!')" );
   Ecs_Python_Cmd( "simpleFactory.DeleteSimple( anotherSimple() )" );
-
-  getchar();
 
 
   // Finalize EcsPython
   // ==================
   Ecs_Finalize();
 
+  getchar();
   return 0;
 }
 

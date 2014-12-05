@@ -209,11 +209,7 @@ void _Ecs_Expose_Object( char* pyObject, std::string pyClassName, std::string py
   module = PyImport_ImportModule( "__main__" );
   PyObject_SetAttrString( module, "ecsPtr", newPyObject );
 
-  pythonCall.append( pyObjectName ).append( " = " ).append( pyClassName ).append( "()" );
-  Ecs_Python_Cmd( pythonCall );
-
-  pythonCall.clear();
-  pythonCall.append( pyObjectName ).append( "._self = ecsPtr" );
+  pythonCall.append( pyObjectName ).append( " = " ).append( pyClassName ).append( "(ecsPtr)" );
   Ecs_Python_Cmd( pythonCall );
 
   Ecs_Python_Cmd( "del ecsPtr" );

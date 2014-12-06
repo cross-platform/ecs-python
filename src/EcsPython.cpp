@@ -1,5 +1,5 @@
 /************************************************************************
-ECS:Python - Light-Weight C++ Wrapper For Embedding Python Into C++
+ECS:Python - Light-Weight C++ Library For Embedding Python Into C++
 Copyright (c) 2012-2014 Marcus Tomlinson
 
 This file is part of EcsPython.

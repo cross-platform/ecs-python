@@ -1,6 +1,6 @@
 /************************************************************************
 DSPatch - Cross-Platform, Object-Oriented, Flow-Based Programming Library
-Copyright (c) 2012-2013 Marcus Tomlinson
+Copyright (c) 2012-2014 Marcus Tomlinson
 
 This file is part of DSPatch.
 
@@ -35,10 +35,10 @@ class DspThread
 {
 public:
   DspThread()
-    : _threadHandle( NULL ) {}
+  : _threadHandle( NULL ) {}
 
-  DspThread( const DspThread& )
-    : _threadHandle( NULL ) {}
+  DspThread( DspThread const& )
+  : _threadHandle( NULL ) {}
 
   virtual ~DspThread()
   {
@@ -55,7 +55,7 @@ public:
     HighPriority = 1,
     HighestPriority = 2,
 
-    TimeCriticalPriority = 15,
+    TimeCriticalPriority = 15
   };
 
   virtual void Start( Priority priority = NormalPriority )
@@ -91,6 +91,7 @@ private:
 
   virtual void _Run() = 0;
 
+private:
   HANDLE _threadHandle;
 };
 
@@ -104,7 +105,7 @@ public:
     InitializeCriticalSection( &_cs );
   }
 
-  DspMutex( const DspMutex& )
+  DspMutex( DspMutex const& )
   {
     InitializeCriticalSection( &_cs );
   }
@@ -138,7 +139,7 @@ public:
     _hEvent = CreateEvent( NULL, TRUE, FALSE, NULL );
   }
 
-  DspWaitCondition( const DspWaitCondition& )
+  DspWaitCondition( DspWaitCondition const& )
   {
     _hEvent = CreateEvent( NULL, TRUE, FALSE, NULL );
   }

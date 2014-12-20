@@ -1,6 +1,6 @@
 /************************************************************************
-ECS:Python - Light-Weight C++ Wrapper For Embedding Python Into C++
-Copyright (c) 2012-2013 Marcus Tomlinson
+ECS:Python - Light-Weight C++ Library For Embedding Python Into C++
+Copyright (c) 2012-2014 Marcus Tomlinson
 
 This file is part of EcsPython.
 
@@ -43,14 +43,14 @@ PyMODINIT_FUNC _Ecs_PyInit();
 // EcsPython Globals
 // =================
 
-DLLPORT DspMutex EcsPythonCmdMutex;												// Mutex for thread-safe python calls
-DLLPORT std::vector< EcsClass* > EcsPythonClassesDict;		// C++ class dictionary
-DLLPORT std::string EcsPythonClassesDef;									// Python definition string for C++ classes 
-DLLPORT std::vector< PyMethodDef > EcsPythonMethods;			// Methods for EcsPython python module
-DLLPORT std::vector< EcsObject* > EcsExposedObjects;			// C++ objects exposed to Python
+DspMutex EcsPythonCmdMutex;                    // Mutex for thread-safe python calls
+std::vector< EcsClass* > EcsPythonClassesDict; // C++ class dictionary
+std::string EcsPythonClassesDef;               // Python definition string for C++ classes
+std::vector< PyMethodDef > EcsPythonMethods;   // Methods for EcsPython python module
+std::vector< EcsObject* > EcsExposedObjects;   // C++ objects exposed to Python
 
 #if PY_MAJOR_VERSION >= 3
-DLLPORT struct PyModuleDef EcsPythonModule;							  // EcsPython python module
+struct PyModuleDef EcsPythonModule;            // EcsPython python module
 #endif
 
 //=================================================================================================
@@ -75,7 +75,7 @@ void Ecs_Initialize()
     _Ecs_Expose_Object( EcsExposedObjects[i]->pyObject, EcsExposedObjects[i]->pyClassName, EcsExposedObjects[i]->pyObjectName );
   }
 
-  EcsPythonMethods.pop_back();	// pop the NULL off the end of the methods array so that more can be added later
+  EcsPythonMethods.pop_back(); // pop the NULL off the end of the methods array so that more can be added later
 }
 
 //-------------------------------------------------------------------------------------------------
@@ -171,7 +171,7 @@ PyMODINIT_FUNC _Ecs_PyInit()
 {
   PyMethodDef nullMethod =
   {
-    NULL, NULL, 0
+    NULL, NULL, 0, NULL
   };
   EcsPythonMethods.push_back( nullMethod );
 
@@ -209,11 +209,7 @@ void _Ecs_Expose_Object( char* pyObject, std::string pyClassName, std::string py
   module = PyImport_ImportModule( "__main__" );
   PyObject_SetAttrString( module, "ecsPtr", newPyObject );
 
-  pythonCall.append( pyObjectName ).append( " = " ).append( pyClassName ).append( "()" );
-  Ecs_Python_Cmd( pythonCall );
-
-  pythonCall.clear();
-  pythonCall.append( pyObjectName ).append( ".SetEcsPtr(ecsPtr)" );
+  pythonCall.append( pyObjectName ).append( " = " ).append( pyClassName ).append( "(ecsPtr)" );
   Ecs_Python_Cmd( pythonCall );
 
   Ecs_Python_Cmd( "del ecsPtr" );

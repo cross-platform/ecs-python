@@ -1,6 +1,6 @@
 /************************************************************************
-ECS:Python - Light-Weight C++ Wrapper For Embedding Python Into C++
-Copyright (c) 2012-2013 Marcus Tomlinson
+ECS:Python - Light-Weight C++ Library For Embedding Python Into C++
+Copyright (c) 2012-2014 Marcus Tomlinson
 
 This file is part of EcsPython.
 
@@ -37,45 +37,49 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 //=================================================================================================
 
-DLLPORT int (*_Ecs_ParseTuple)( PyObject *, const char *, ... ) = NULL;
+int (*_Ecs_ParseTuple)( PyObject *, const char *, ... ) = NULL;
 
-//template PyObject* _Ecs_GetPythonReturnValue( const char*& );
-template DLLEXPORT PyObject* _Ecs_GetPythonReturnValue( const std::string& );
-template DLLEXPORT PyObject* _Ecs_GetPythonReturnValue( const char& );
-template DLLEXPORT PyObject* _Ecs_GetPythonReturnValue( const unsigned char& );
-template DLLEXPORT PyObject* _Ecs_GetPythonReturnValue( const short& );
-template DLLEXPORT PyObject* _Ecs_GetPythonReturnValue( const unsigned short& );
-template DLLEXPORT PyObject* _Ecs_GetPythonReturnValue( const int& );
-template DLLEXPORT PyObject* _Ecs_GetPythonReturnValue( const unsigned int& );
-template DLLEXPORT PyObject* _Ecs_GetPythonReturnValue( const long& );
-template DLLEXPORT PyObject* _Ecs_GetPythonReturnValue( const unsigned long& );
-template DLLEXPORT PyObject* _Ecs_GetPythonReturnValue( const long long& );
-template DLLEXPORT PyObject* _Ecs_GetPythonReturnValue( const unsigned long long& );
-template DLLEXPORT PyObject* _Ecs_GetPythonReturnValue( const bool& );
-template DLLEXPORT PyObject* _Ecs_GetPythonReturnValue( const double& );
-template DLLEXPORT PyObject* _Ecs_GetPythonReturnValue( const float& );
+typedef char* charptr;
+typedef void* voidptr;
+
+template PyObject* _Ecs_ToPyObject( const charptr& );
+template PyObject* _Ecs_ToPyObject( const std::string& );
+template PyObject* _Ecs_ToPyObject( const char& );
+template PyObject* _Ecs_ToPyObject( const unsigned char& );
+template PyObject* _Ecs_ToPyObject( const short& );
+template PyObject* _Ecs_ToPyObject( const unsigned short& );
+template PyObject* _Ecs_ToPyObject( const int& );
+template PyObject* _Ecs_ToPyObject( const unsigned int& );
+template PyObject* _Ecs_ToPyObject( const long& );
+template PyObject* _Ecs_ToPyObject( const unsigned long& );
+template PyObject* _Ecs_ToPyObject( const long long& );
+template PyObject* _Ecs_ToPyObject( const unsigned long long& );
+template PyObject* _Ecs_ToPyObject( const bool& );
+template PyObject* _Ecs_ToPyObject( const double& );
+template PyObject* _Ecs_ToPyObject( const float& );
+template PyObject* _Ecs_ToPyObject( const voidptr& );
 
 //=================================================================================================
 
 void _EcsAddNewMethod( const char *methodName, PyCFunction methodPointer, int methodFlags )
 {
-if( _Ecs_ParseTuple == NULL )
-{
-_Ecs_ParseTuple = PyArg_ParseTuple;
-}
+  if( _Ecs_ParseTuple == NULL )
+  {
+    _Ecs_ParseTuple = PyArg_ParseTuple;
+  }
 
-PyMethodDef newMethod = { methodName, methodPointer, methodFlags };
-EcsPythonMethods.push_back( newMethod );
+  PyMethodDef newMethod = { methodName, methodPointer, methodFlags, NULL };
+  EcsPythonMethods.push_back( newMethod );
 }
 
 //-------------------------------------------------------------------------------------------------
 
 template< class Type >
-PyObject* _Ecs_GetPythonReturnValue( const Type& Value )
+PyObject* _Ecs_ToPyObject( const Type& Value )
 {
   if( typeid( Type ) == typeid( char* ) )
     return PyUnicode_FromFormat( "%s", *((char**)(&Value)) );
-  if( typeid( Type ) == typeid( std::string ) )
+  else if( typeid( Type ) == typeid( std::string ) )
     return PyUnicode_FromFormat( "%s", (*((std::string*)(&Value))).c_str() );
   else if( typeid( Type ) == typeid( char ) )
     return PyUnicode_FromFormat( "%c", *((char*)(&Value)) );
@@ -103,6 +107,8 @@ PyObject* _Ecs_GetPythonReturnValue( const Type& Value )
     return PyFloat_FromDouble( *((double*)(&Value)) );
   else if( typeid( Type ) == typeid( float ) )
     return PyFloat_FromDouble( *((float*)(&Value)) );
+  else if( typeid( Type ) == typeid( void* ) )
+    return PyLong_FromUnsignedLong( *((unsigned long*)(&Value)) );
   else
     return NULL;
 }

@@ -31,8 +31,6 @@ add_library(
     ${PROJECT_NAME}
     ${srcs}
     ${hdrs}
-    ${in_hdrs}
-    ${dsp_hdrs}
 )
 
 target_link_libraries(

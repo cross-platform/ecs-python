@@ -15,6 +15,8 @@ else()
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-return-type-c-linkage -Wno-gnu-zero-variadic-macro-arguments -Wno-vla-extension")
 endif()
 
+enable_testing()
+
 if(UNIX)
     find_package(PythonLibs REQUIRED)
 endif(UNIX)

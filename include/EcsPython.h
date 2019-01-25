@@ -34,7 +34,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include <EcsMacros.h>
 
-#include <thread>
+#include <mutex>
 
 struct PyMethodDef;
 

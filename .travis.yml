@@ -37,8 +37,9 @@ before_script:
 script:
     - cd debug
     - make all
+    - if [ ! -n "$CMakeArgs" ]; then make test; fi
     - cd ..
     - cd release
     - make all
+    - if [ ! -n "$CMakeArgs" ]; then make test; fi
     - cd ..
-    

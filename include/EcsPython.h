@@ -32,8 +32,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef ECSPYTHON_H
 #define ECSPYTHON_H
 
-#include <dspatch/DspThread.h>
-#include <ecspython/EcsMacros.h>
+#include <EcsMacros.h>
+
+#include <thread>
 
 struct PyMethodDef;
 
@@ -43,34 +44,38 @@ struct PyMethodDef;
 
 struct EcsClass
 {
-  EcsClass( std::string newPyClassName, const std::type_info& newPyClassType )
-    : pyClassName( newPyClassName ),
-      pyClassType( newPyClassType ) {}
+    EcsClass( std::string newPyClassName, const std::type_info& newPyClassType )
+        : pyClassName( newPyClassName )
+        , pyClassType( newPyClassType )
+    {
+    }
 
-  std::string pyClassName;
-  const std::type_info& pyClassType;
+    std::string pyClassName;
+    const std::type_info& pyClassType;
 };
 
 struct EcsObject
 {
-  EcsObject( char* newPyObject, std::string newPyClassName, std::string newPyObjectName )
-    : pyObject( newPyObject ),
-      pyClassName( newPyClassName ),
-      pyObjectName( newPyObjectName ) {}
+    EcsObject( char* newPyObject, std::string newPyClassName, std::string newPyObjectName )
+        : pyObject( newPyObject )
+        , pyClassName( newPyClassName )
+        , pyObjectName( newPyObjectName )
+    {
+    }
 
-  char* pyObject;
-  std::string pyClassName;
-  std::string pyObjectName;
+    char* pyObject;
+    std::string pyClassName;
+    std::string pyObjectName;
 };
 
-extern DspMutex EcsPythonCmdMutex;                    // Mutex for thread-safe python calls
-extern std::vector< EcsClass* > EcsPythonClassesDict; // C++ class dictionary
-extern std::string EcsPythonClassesDef;               // Python definition string for C++ classes
-extern std::vector< PyMethodDef > EcsPythonMethods;   // Methods for EcsPython python module
-extern std::vector< EcsObject* > EcsExposedObjects;   // C++ objects exposed to Python
+extern std::mutex EcsPythonCmdMutex;                 // Mutex for thread-safe python calls
+extern std::vector<EcsClass*> EcsPythonClassesDict;  // C++ class dictionary
+extern std::string EcsPythonClassesDef;              // Python definition string for C++ classes
+extern std::vector<PyMethodDef> EcsPythonMethods;    // Methods for EcsPython python module
+extern std::vector<EcsObject*> EcsExposedObjects;    // C++ objects exposed to Python
 
 #if PY_MAJOR_VERSION >= 3
-extern struct PyModuleDef EcsPythonModule; // EcsPython python module
+extern struct PyModuleDef EcsPythonModule;  // EcsPython python module
 #endif
 
 //=================================================================================================
@@ -109,21 +114,21 @@ std::string Ecs_Get_Value( std::string pyObjectName );
 
 void _Ecs_Expose_Object( char* pyObject, std::string pyClassName, std::string pyObjectName );
 
-template< class ObjectType >
+template <class ObjectType>
 void Ecs_Expose_Object( ObjectType* object, std::string pyObjectName )
 {
-  for( unsigned long i = 0; i < EcsPythonClassesDict.size(); i++ )
-  {
-    if( EcsPythonClassesDict[i]->pyClassType == typeid( ObjectType ) )
+    for ( unsigned long i = 0; i < EcsPythonClassesDict.size(); i++ )
     {
-      // Get object pointer from C++ to Python
-      char* pyObject = ( char* ) ( object );
-      _Ecs_Expose_Object( pyObject, EcsPythonClassesDict[i]->pyClassName, pyObjectName );
-      EcsExposedObjects.push_back( new EcsObject( pyObject, EcsPythonClassesDict[i]->pyClassName, pyObjectName ) );
+        if ( EcsPythonClassesDict[i]->pyClassType == typeid( ObjectType ) )
+        {
+            // Get object pointer from C++ to Python
+            char* pyObject = (char*)( object );
+            _Ecs_Expose_Object( pyObject, EcsPythonClassesDict[i]->pyClassName, pyObjectName );
+            EcsExposedObjects.push_back( new EcsObject( pyObject, EcsPythonClassesDict[i]->pyClassName, pyObjectName ) );
+        }
     }
-  }
 }
 
 //=================================================================================================
 
-#endif // ECSPYTHON_H
+#endif  // ECSPYTHON_H

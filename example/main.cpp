@@ -40,43 +40,45 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 class Simple
 {
 public:
-  Simple( std::string firstMessage )
-    : lastMessage( firstMessage ) {}
-
-  bool Show( std::string message )
-  {
-    std::cout << message.c_str();
-    lastMessage = message;
-    return true;
-  }
-
-  float ShowDouble( double message )
-  {
-    std::cout << message;
-    return (float)message;
-  }
-
-  void ShowLots( unsigned long count, char* message )
-  {
-    for( unsigned int i = 0; i < count; i++ )
+    Simple( std::string firstMessage )
+        : lastMessage( firstMessage )
     {
-      std::cout << message;
     }
-    lastMessage = message;
-  }
 
-  std::string GetLastMessage() const
-  {
-    return lastMessage;
-  }
+    bool Show( std::string message )
+    {
+        std::cout << message.c_str();
+        lastMessage = message;
+        return true;
+    }
 
-  void ShowPtr( void* thiz )
-  {
-      ((Simple*)thiz)->Show("Hey! This is coming from a pointer :)");
-  }
+    float ShowDouble( double message )
+    {
+        std::cout << message;
+        return (float)message;
+    }
+
+    void ShowLots( unsigned long count, char* message )
+    {
+        for ( unsigned int i = 0; i < count; i++ )
+        {
+            std::cout << message;
+        }
+        lastMessage = message;
+    }
+
+    std::string GetLastMessage() const
+    {
+        return lastMessage;
+    }
+
+    void ShowPtr( void* thiz )
+    {
+        ( (Simple*)thiz )->Show( "Hey! This is coming from a pointer :)" );
+    }
 
 private:
-  std::string lastMessage;
+    std::string lastMessage;
 };
 
 // Simple Class Factory
@@ -91,7 +93,7 @@ public:
 
     void DeleteSimple( void* simple )
     {
-        delete ( ( Simple* )simple );
+        delete ( (Simple*)simple );
     }
 };
 
@@ -114,71 +116,67 @@ ECS_REGISTER_METHOD_VOID( SimpleFactory, DeleteSimple, void* )
 // ====
 int main()
 {
-  // Init Classes + Methods
-  // ======================
-  Ecs_Init_Simple();
-  Ecs_Init_Simple_Show();
-  Ecs_Init_Simple_ShowDouble();
-  Ecs_Init_Simple_ShowLots();
-  Ecs_Init_Simple_GetLastMessage();
-  Ecs_Init_Simple_ShowPtr();
+    // Init Classes + Methods
+    // ======================
+    Ecs_Init_Simple();
+    Ecs_Init_Simple_Show();
+    Ecs_Init_Simple_ShowDouble();
+    Ecs_Init_Simple_ShowLots();
+    Ecs_Init_Simple_GetLastMessage();
+    Ecs_Init_Simple_ShowPtr();
 
-  Ecs_Init_SimpleFactory();
-  Ecs_Init_SimpleFactory_NewSimple();
-  Ecs_Init_SimpleFactory_DeleteSimple();
+    Ecs_Init_SimpleFactory();
+    Ecs_Init_SimpleFactory_NewSimple();
+    Ecs_Init_SimpleFactory_DeleteSimple();
 
-  // Initialize EcsPython
-  // ====================
-  Ecs_Initialize();
+    // Initialize EcsPython
+    // ====================
+    Ecs_Initialize();
 
+    // Create And Expose Class Instance To Python
+    // ==========================================
+    Simple newSimple( "(first message)" );
+    Ecs_Expose_Object( &newSimple, "newSimple" );
 
-  // Create And Expose Class Instance To Python
-  // ==========================================
-  Simple newSimple( "(first message)" );
-  Ecs_Expose_Object( &newSimple, "newSimple" );
+    // Use Exposed Class Instance From Python
+    // ======================================
+    Ecs_Python_Cmd( "print( newSimple.GetLastMessage() )" );
 
-  // Use Exposed Class Instance From Python
-  // ======================================
-  Ecs_Python_Cmd( "print( newSimple.GetLastMessage() )" );
+    Ecs_Python_Cmd( "newSimple.Show( 'my favorite number is ' )" );
+    Ecs_Python_Cmd( "newSimple.ShowDouble( 5.9982 )" );
+    Ecs_Python_Cmd( "print('')" );
 
-  Ecs_Python_Cmd( "newSimple.Show( 'my favorite number is ' )" );
-  Ecs_Python_Cmd( "newSimple.ShowDouble( 5.9982 )" );
-  Ecs_Python_Cmd( "print('')" );
+    Ecs_Python_Cmd( "newSimple.ShowPtr( newSimple() )" );
+    Ecs_Python_Cmd( "print('')" );
 
-  Ecs_Python_Cmd( "newSimple.ShowPtr( newSimple() )" );
-  Ecs_Python_Cmd( "print('')" );
+    Ecs_Python_Cmd( "state = newSimple.Show( 'hello' )" );
+    Ecs_Python_Cmd( "if state == True:\n\tprint( ' there,' )" );
 
-  Ecs_Python_Cmd( "state = newSimple.Show( 'hello' )" );
-  Ecs_Python_Cmd( "if state == True:\n\tprint( ' there,' )" );
+    Ecs_Python_Cmd( "newSimple.ShowLots( 5, 'again and ' )" );
 
-  Ecs_Python_Cmd( "newSimple.ShowLots( 5, 'again and ' )" );
+    Ecs_Python_Cmd( "newSimple.Show( 'once more.' )" );
+    Ecs_Python_Cmd( "print('')" );
 
-  Ecs_Python_Cmd( "newSimple.Show( 'once more.' )" );
-  Ecs_Python_Cmd( "print('')" );
+    // Use The Class Instance From C++
+    // ===============================
+    std::cout << "Ok, " << newSimple.GetLastMessage().c_str() << std::endl;
 
-  // Use The Class Instance From C++
-  // ===============================
-  std::cout << "Ok, " << newSimple.GetLastMessage().c_str() << std::endl;
+    // Create And Expose Factory To Python
+    // ===================================
+    SimpleFactory simpleFactory;
+    Ecs_Expose_Object( &simpleFactory, "simpleFactory" );
 
+    // Create A New Class Instance From Python
+    // =======================================
+    Ecs_Python_Cmd( "anotherSimple = Simple( simpleFactory.NewSimple( '\\'Allo ' ) )" );
+    Ecs_Python_Cmd( "print( anotherSimple.GetLastMessage() + '\\'Allo!')" );
+    Ecs_Python_Cmd( "simpleFactory.DeleteSimple( anotherSimple() )" );
 
-  // Create And Expose Factory To Python
-  // ===================================
-  SimpleFactory simpleFactory;
-  Ecs_Expose_Object( &simpleFactory, "simpleFactory" );
+    // Finalize EcsPython
+    // ==================
+    Ecs_Finalize();
 
-  // Create A New Class Instance From Python
-  // =======================================
-  Ecs_Python_Cmd( "anotherSimple = Simple( simpleFactory.NewSimple( '\\'Allo ' ) )" );
-  Ecs_Python_Cmd( "print( anotherSimple.GetLastMessage() + '\\'Allo!')" );
-  Ecs_Python_Cmd( "simpleFactory.DeleteSimple( anotherSimple() )" );
-
-
-  // Finalize EcsPython
-  // ==================
-  Ecs_Finalize();
-
-  getchar();
-  return 0;
+    return 0;
 }
 
 //=================================================================================================

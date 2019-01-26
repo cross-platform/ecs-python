@@ -1,19 +1,27 @@
-cmake_minimum_required(VERSION 2.8)
-
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC -pthread -Wall -Wextra")
+cmake_minimum_required(VERSION 3.1)
 
 project(EcsPython)
 
-add_subdirectory(example)
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
 
-if(UNIX)
-    find_package(PythonLibs REQUIRED)
-endif(UNIX)
+if(MSVC)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -W4")
+elseif(MINGW)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread -pedantic -Wall -Wextra -Wnon-virtual-dtor -Wno-unknown-pragmas")
+else()
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC -pthread -pedantic -Wall -Wextra -Wnon-virtual-dtor")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-return-type-c-linkage -Wno-gnu-zero-variadic-macro-arguments -Wno-vla-extension")
+endif()
 
-if(${CMAKE_SYSTEM_NAME} MATCHES "Windows")    
-    set(PYTHON_LIBRARIES "C:/Python27/libs/python27.lib")
-    set(PYTHON_INCLUDE_DIRS "C:/Python27/include")
-endif(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
+enable_testing()
+
+find_package(PythonLibs 3.3 EXACT)
+
+if(NOT ${PYTHONLIBS_FOUND})
+   find_package(PythonLibs 2.7 EXACT REQUIRED)
+endif()
 
 include_directories(
     ${CMAKE_SOURCE_DIR}/include
@@ -22,21 +30,20 @@ include_directories(
 
 file(GLOB srcs src/*.cpp)
 file(GLOB hdrs include/*.h)
-file(GLOB in_hdrs include/ecspython/*.h)
-file(GLOB dsp_hdrs include/dspatch/*.h)
 
 add_library(
     ${PROJECT_NAME}
     ${srcs}
     ${hdrs}
-    ${in_hdrs}
-    ${dsp_hdrs}
 )
 
 target_link_libraries(
     ${PROJECT_NAME}
     ${PYTHON_LIBRARIES}
 )
+
+add_subdirectory(example)
+add_subdirectory(tests)
 
 install(
     TARGETS ${PROJECT_NAME}
@@ -46,14 +53,4 @@ install(
 install(
     FILES ${hdrs}
     DESTINATION include
-)
-
-install(
-    FILES ${in_hdrs}
-    DESTINATION include/ecspython
-)
-
-install(
-    FILES ${dsp_hdrs}
-    DESTINATION include/dspatch
 )

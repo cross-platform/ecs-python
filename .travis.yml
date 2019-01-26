@@ -1,0 +1,36 @@
+language: cpp
+
+matrix:
+  include:
+  - os: linux
+    env: PLATFORM="linux-gcc" CMakeArgs=""
+    compiler: gcc
+  - os: linux
+    env: PLATFORM="linux-clang" CMakeArgs=""
+    compiler: clang
+  - os: osx
+    env: PLATFORM="osx-gcc" CMakeArgs=""
+    compiler: gcc
+  - os: osx
+    env: PLATFORM="osx-clang" CMakeArgs=""
+    compiler: clang
+
+before_script:
+    - mkdir debug
+    - cd debug
+    - cmake $CMakeArgs -D CMAKE_BUILD_TYPE=Debug ..
+    - cd ..
+    - mkdir release
+    - cd release
+    - cmake $CMakeArgs -D CMAKE_BUILD_TYPE=Release ..
+    - cd ..
+
+script:
+    - cd debug
+    - make all
+    - make test
+    - cd ..
+    - cd release
+    - make all
+    - make test
+    - cd ..

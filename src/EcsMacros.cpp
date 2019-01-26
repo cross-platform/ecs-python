@@ -29,15 +29,15 @@ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ************************************************************************/
 
+#include <EcsMacros.h>
 #include <EcsPython.h>
-#include <ecspython/EcsMacros.h>
 #include <Python.h>
 
 #include <string>
 
 //=================================================================================================
 
-int (*_Ecs_ParseTuple)( PyObject *, const char *, ... ) = NULL;
+int ( *_Ecs_ParseTuple )( PyObject*, const char*, ... ) = NULL;
 
 typedef char* charptr;
 typedef void* voidptr;
@@ -61,64 +61,64 @@ template PyObject* _Ecs_ToPyObject( const voidptr& );
 
 //=================================================================================================
 
-void _EcsAddNewMethod( const char *methodName, PyCFunction methodPointer, int methodFlags )
+void _EcsAddNewMethod( const char* methodName, PyCFunction methodPointer, int methodFlags )
 {
-  if( _Ecs_ParseTuple == NULL )
-  {
-    _Ecs_ParseTuple = PyArg_ParseTuple;
-  }
+    if ( _Ecs_ParseTuple == NULL )
+    {
+        _Ecs_ParseTuple = PyArg_ParseTuple;
+    }
 
-  PyMethodDef newMethod = { methodName, methodPointer, methodFlags, NULL };
-  EcsPythonMethods.push_back( newMethod );
+    PyMethodDef newMethod = {methodName, methodPointer, methodFlags, NULL};
+    EcsPythonMethods.push_back( newMethod );
 }
 
 //-------------------------------------------------------------------------------------------------
 
-template< class Type >
+template <class Type>
 PyObject* _Ecs_ToPyObject( const Type& Value )
 {
-  if( typeid( Type ) == typeid( char* ) )
-    return PyUnicode_FromFormat( "%s", *((char**)(&Value)) );
-  else if( typeid( Type ) == typeid( std::string ) )
-    return PyUnicode_FromFormat( "%s", (*((std::string*)(&Value))).c_str() );
-  else if( typeid( Type ) == typeid( char ) )
-    return PyUnicode_FromFormat( "%c", *((char*)(&Value)) );
-  else if( typeid( Type ) == typeid( unsigned char ) )
-    return PyLong_FromUnsignedLong( *((unsigned char*)(&Value)) );
-  else if( typeid( Type ) == typeid( short ) )
-    return PyLong_FromLong( *((short*)(&Value)) );
-  else if( typeid( Type ) == typeid( unsigned short ) )
-    return PyLong_FromUnsignedLong( *((unsigned short*)(&Value)) );
-  else if( typeid( Type ) == typeid( int ) )
-    return PyLong_FromLong( *((int*)(&Value)) );
-  else if( typeid( Type ) == typeid( unsigned int ) )
-    return PyLong_FromUnsignedLong( *((unsigned int*)(&Value)) );
-  else if( typeid( Type ) == typeid( long ) )
-    return PyLong_FromLong( *((long*)(&Value)) );
-  else if( typeid( Type ) == typeid( unsigned long ) )
-    return PyLong_FromUnsignedLong( *((unsigned long*)(&Value)) );
-  else if( typeid( Type ) == typeid( long long ) )
-    return PyLong_FromLongLong( *((long long*)(&Value)) );
-  else if( typeid( Type ) == typeid( unsigned long long ) )
-    return PyLong_FromUnsignedLongLong( *((unsigned long long*)(&Value)) );
-  else if( typeid( Type ) == typeid( bool ) )
-    return PyBool_FromLong( *((unsigned char*)(&Value)) );
-  else if( typeid( Type ) == typeid( double ) )
-    return PyFloat_FromDouble( *((double*)(&Value)) );
-  else if( typeid( Type ) == typeid( float ) )
-    return PyFloat_FromDouble( *((float*)(&Value)) );
-  else if( typeid( Type ) == typeid( void* ) )
-    return PyLong_FromUnsignedLong( *((unsigned long*)(&Value)) );
-  else
-    return NULL;
+    if ( typeid( Type ) == typeid( char* ) )
+        return PyUnicode_FromFormat( "%s", *( (char**)( &Value ) ) );
+    else if ( typeid( Type ) == typeid( std::string ) )
+        return PyUnicode_FromFormat( "%s", ( *( (std::string*)( &Value ) ) ).c_str() );
+    else if ( typeid( Type ) == typeid( char ) )
+        return PyUnicode_FromFormat( "%c", *( (char*)( &Value ) ) );
+    else if ( typeid( Type ) == typeid( unsigned char ) )
+        return PyLong_FromUnsignedLong( *( (unsigned char*)( &Value ) ) );
+    else if ( typeid( Type ) == typeid( short ) )
+        return PyLong_FromLong( *( (short*)( &Value ) ) );
+    else if ( typeid( Type ) == typeid( unsigned short ) )
+        return PyLong_FromUnsignedLong( *( (unsigned short*)( &Value ) ) );
+    else if ( typeid( Type ) == typeid( int ) )
+        return PyLong_FromLong( *( (int*)( &Value ) ) );
+    else if ( typeid( Type ) == typeid( unsigned int ) )
+        return PyLong_FromUnsignedLong( *( (unsigned int*)( &Value ) ) );
+    else if ( typeid( Type ) == typeid( long ) )
+        return PyLong_FromLong( *( (long*)( &Value ) ) );
+    else if ( typeid( Type ) == typeid( unsigned long ) )
+        return PyLong_FromUnsignedLong( *( (unsigned long*)( &Value ) ) );
+    else if ( typeid( Type ) == typeid( long long ) )
+        return PyLong_FromLongLong( *( (long long*)( &Value ) ) );
+    else if ( typeid( Type ) == typeid( unsigned long long ) )
+        return PyLong_FromUnsignedLongLong( *( (unsigned long long*)( &Value ) ) );
+    else if ( typeid( Type ) == typeid( bool ) )
+        return PyBool_FromLong( *( (unsigned char*)( &Value ) ) );
+    else if ( typeid( Type ) == typeid( double ) )
+        return PyFloat_FromDouble( *( (double*)( &Value ) ) );
+    else if ( typeid( Type ) == typeid( float ) )
+        return PyFloat_FromDouble( *( (float*)( &Value ) ) );
+    else if ( typeid( Type ) == typeid( void* ) )
+        return PyLong_FromUnsignedLongLong( *( (unsigned long long*)( &Value ) ) );
+    else
+        return NULL;
 }
 
 //-------------------------------------------------------------------------------------------------
 
 PyObject* _Ecs_GetPythonNull()
 {
-  Py_INCREF( Py_None );
-  return Py_None;
+    Py_INCREF( Py_None );
+    return Py_None;
 }
 
 //=================================================================================================

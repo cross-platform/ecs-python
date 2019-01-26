@@ -1,7 +1,7 @@
 [![Build Status](https://travis-ci.org/cross-platform/ecs-python.svg?branch=master)](https://travis-ci.org/cross-platform/ecs-python)
 [![Build status](https://ci.appveyor.com/api/projects/status/95ouh8tha8v5auaq?svg=true)](https://ci.appveyor.com/project/MarcusTomlinson/ecs-python)
 
-# ECS-Python
+# ECS:Python
 
 Light-weight C++ library for embedding Python into C++
 

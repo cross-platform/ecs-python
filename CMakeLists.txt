@@ -17,7 +17,7 @@ endif()
 
 enable_testing()
 
-find_package(PythonLibs 3.6 EXACT)
+find_package(PythonLibs 3.3 EXACT)
 
 include_directories(
     ${CMAKE_SOURCE_DIR}/include

@@ -27,7 +27,7 @@ make
 - *When building for an IDE, instead of `make`, simply open the cmake generated project file.*
 
 
-## Debugging on Windows:
+## Debugging on Windows
 
 The Windows Python distros do not come packaged with a debug library: "pythonXX_d.lib".
 So, in order to get ECS:Python to compile in Debug mode:

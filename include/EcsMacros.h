@@ -1,6 +1,6 @@
 /************************************************************************
 ECS:Python - Light-Weight C++ Library For Embedding Python Into C++
-Copyright (c) 2012-2014 Marcus Tomlinson
+Copyright (c) 2012-2019 Marcus Tomlinson
 
 This file is part of EcsPython.
 

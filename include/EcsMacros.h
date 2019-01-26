@@ -96,7 +96,7 @@ static void _Ecs_AppendPythonArgType( std::string& pyTypes )
     else if ( typeid( Type ) == typeid( float ) )
         append = "f";
     else if ( typeid( Type ) == typeid( void* ) )
-        append = "k";
+        append = "K";
 
     pyTypes.append( append );
 }

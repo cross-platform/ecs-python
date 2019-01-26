@@ -190,7 +190,7 @@ void _Ecs_Expose_Object( char* pyObject, std::string pyClassName, std::string py
 {
     std::string pythonCall;
     PyObject* module = NULL;
-    PyObject* newPyObject = Py_BuildValue( "k", pyObject );
+    PyObject* newPyObject = Py_BuildValue( "K", pyObject );
 
     Ecs_Python_Cmd( "ecsPtr = 0" );
 

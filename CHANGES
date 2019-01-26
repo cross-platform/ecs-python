@@ -1,0 +1,12 @@
+v.3.0 (26 January 2019)
+    - Fixed x64 pointer types.
+    - Added CI and unit tests.
+    - Cleaned up project structure and code formatting.
+    - Switch to C++11 std::mutex.
+
+v.2.8 (20 December 2014)
+    - Basic support for constructing C++ objects from Python.
+    - call() returns a pointer to the C++ object.
+    - Added support for void* arguments.
+    - Fixed floating point argument bug.
+    - Fixed char* return value bug.

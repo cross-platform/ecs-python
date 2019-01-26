@@ -219,7 +219,7 @@ static std::string _Ecs_MakeMethodArgs()
     {                                                                                                                                \
         success = true;                                                                                                              \
         char* obj;                                                                                                                   \
-        std::string pyTypes = "k";                                                                                                   \
+        std::string pyTypes = "K";                                                                                                   \
         if ( _Ecs_ParseTuple( args, pyTypes.c_str(), &obj ) )                                                                        \
             return ( RetT )( (ObjT*)obj )->Method();                                                                                 \
         success = false;                                                                                                             \
@@ -230,7 +230,7 @@ static std::string _Ecs_MakeMethodArgs()
     {                                                                                                                                \
         success = true;                                                                                                              \
         char* objs[2];                                                                                                               \
-        std::string pyTypes = "k";                                                                                                   \
+        std::string pyTypes = "K";                                                                                                   \
         _Ecs_AppendPythonArgType<A1T>( pyTypes );                                                                                    \
         if ( _Ecs_ParseTuple( args, pyTypes.c_str(), &objs[0], &objs[1] ) )                                                          \
         {                                                                                                                            \
@@ -246,7 +246,7 @@ static std::string _Ecs_MakeMethodArgs()
     {                                                                                                                                \
         success = true;                                                                                                              \
         char* objs[3];                                                                                                               \
-        std::string pyTypes = "k";                                                                                                   \
+        std::string pyTypes = "K";                                                                                                   \
         _Ecs_AppendPythonArgType<A1T>( pyTypes );                                                                                    \
         _Ecs_AppendPythonArgType<A2T>( pyTypes );                                                                                    \
         if ( _Ecs_ParseTuple( args, pyTypes.c_str(), &objs[0], &objs[1], &objs[2] ) )                                                \
@@ -265,7 +265,7 @@ static std::string _Ecs_MakeMethodArgs()
     {                                                                                                                                \
         success = true;                                                                                                              \
         char* objs[4];                                                                                                               \
-        std::string pyTypes = "k";                                                                                                   \
+        std::string pyTypes = "K";                                                                                                   \
         _Ecs_AppendPythonArgType<A1T>( pyTypes );                                                                                    \
         _Ecs_AppendPythonArgType<A2T>( pyTypes );                                                                                    \
         _Ecs_AppendPythonArgType<A3T>( pyTypes );                                                                                    \
@@ -287,7 +287,7 @@ static std::string _Ecs_MakeMethodArgs()
     {                                                                                                                                \
         success = true;                                                                                                              \
         char* objs[5];                                                                                                               \
-        std::string pyTypes = "k";                                                                                                   \
+        std::string pyTypes = "K";                                                                                                   \
         _Ecs_AppendPythonArgType<A1T>( pyTypes );                                                                                    \
         _Ecs_AppendPythonArgType<A2T>( pyTypes );                                                                                    \
         _Ecs_AppendPythonArgType<A3T>( pyTypes );                                                                                    \
@@ -312,7 +312,7 @@ static std::string _Ecs_MakeMethodArgs()
     {                                                                                                                                \
         success = true;                                                                                                              \
         char* objs[6];                                                                                                               \
-        std::string pyTypes = "k";                                                                                                   \
+        std::string pyTypes = "K";                                                                                                   \
         _Ecs_AppendPythonArgType<A1T>( pyTypes );                                                                                    \
         _Ecs_AppendPythonArgType<A2T>( pyTypes );                                                                                    \
         _Ecs_AppendPythonArgType<A3T>( pyTypes );                                                                                    \
@@ -340,7 +340,7 @@ static std::string _Ecs_MakeMethodArgs()
     {                                                                                                                                \
         success = true;                                                                                                              \
         char* objs[7];                                                                                                               \
-        std::string pyTypes = "k";                                                                                                   \
+        std::string pyTypes = "K";                                                                                                   \
         _Ecs_AppendPythonArgType<A1T>( pyTypes );                                                                                    \
         _Ecs_AppendPythonArgType<A2T>( pyTypes );                                                                                    \
         _Ecs_AppendPythonArgType<A3T>( pyTypes );                                                                                    \
@@ -371,7 +371,7 @@ static std::string _Ecs_MakeMethodArgs()
     {                                                                                                                                \
         success = true;                                                                                                              \
         char* objs[8];                                                                                                               \
-        std::string pyTypes = "k";                                                                                                   \
+        std::string pyTypes = "K";                                                                                                   \
         _Ecs_AppendPythonArgType<A1T>( pyTypes );                                                                                    \
         _Ecs_AppendPythonArgType<A2T>( pyTypes );                                                                                    \
         _Ecs_AppendPythonArgType<A3T>( pyTypes );                                                                                    \
@@ -406,7 +406,7 @@ static std::string _Ecs_MakeMethodArgs()
     {                                                                                                                                \
         success = true;                                                                                                              \
         char* objs[9];                                                                                                               \
-        std::string pyTypes = "k";                                                                                                   \
+        std::string pyTypes = "K";                                                                                                   \
         _Ecs_AppendPythonArgType<A1T>( pyTypes );                                                                                    \
         _Ecs_AppendPythonArgType<A2T>( pyTypes );                                                                                    \
         _Ecs_AppendPythonArgType<A3T>( pyTypes );                                                                                    \
@@ -445,7 +445,7 @@ static std::string _Ecs_MakeMethodArgs()
     {                                                                                                                                \
         success = true;                                                                                                              \
         char* objs[10];                                                                                                              \
-        std::string pyTypes = "k";                                                                                                   \
+        std::string pyTypes = "K";                                                                                                   \
         _Ecs_AppendPythonArgType<A1T>( pyTypes );                                                                                    \
         _Ecs_AppendPythonArgType<A2T>( pyTypes );                                                                                    \
         _Ecs_AppendPythonArgType<A3T>( pyTypes );                                                                                    \
@@ -487,7 +487,7 @@ static std::string _Ecs_MakeMethodArgs()
     {                                                                                                                                \
         success = true;                                                                                                              \
         char* objs[11];                                                                                                              \
-        std::string pyTypes = "k";                                                                                                   \
+        std::string pyTypes = "K";                                                                                                   \
         _Ecs_AppendPythonArgType<A1T>( pyTypes );                                                                                    \
         _Ecs_AppendPythonArgType<A2T>( pyTypes );                                                                                    \
         _Ecs_AppendPythonArgType<A3T>( pyTypes );                                                                                    \

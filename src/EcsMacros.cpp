@@ -108,7 +108,7 @@ PyObject* _Ecs_ToPyObject( const Type& Value )
     else if ( typeid( Type ) == typeid( float ) )
         return PyFloat_FromDouble( *( (float*)( &Value ) ) );
     else if ( typeid( Type ) == typeid( void* ) )
-        return PyLong_FromUnsignedLong( *( (unsigned long*)( &Value ) ) );
+        return PyLong_FromUnsignedLongLong( *( (unsigned long long*)( &Value ) ) );
     else
         return NULL;
 }

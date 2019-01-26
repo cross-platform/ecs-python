@@ -17,7 +17,11 @@ endif()
 
 enable_testing()
 
-find_package(PythonLibs REQUIRED)
+find_package(PythonLibs 3.6)
+
+if(NOT ${PYTHONLIBS_FOUND})
+   find_package(PythonLibs 2.7 REQUIRED)
+endif()
 
 include_directories(
     ${CMAKE_SOURCE_DIR}/include
